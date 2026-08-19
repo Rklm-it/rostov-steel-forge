@@ -316,7 +316,7 @@ function ManufacturingSection() {
   ];
 
   return (
-    <section id="services" className="bg-light py-16 sm:py-20 lg:py-24">
+    <section id="services" className="scroll-mt-20 bg-light py-16 sm:py-20 lg:py-24">
       <div className="container-factory">
         <div className="max-w-3xl">
           <h2 className="heading-tight text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
