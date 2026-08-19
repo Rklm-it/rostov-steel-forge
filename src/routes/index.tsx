@@ -4,6 +4,7 @@ import {
   Anchor,
   Box,
   Building2,
+  Check,
   Clock,
   CornerUpLeft,
   Crosshair,
@@ -15,6 +16,7 @@ import {
   MapPin,
   Medal,
   Menu,
+  MessageCircle,
   PanelTop,
   Phone,
   Puzzle,
@@ -507,6 +509,216 @@ function AboutSection() {
   );
 }
 
+function RequestSection() {
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
+  return (
+    <section id="request" className="bg-graphite py-16 sm:py-20 lg:py-24">
+      <div className="container-factory">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="max-w-xl">
+            <h2 className="heading-tight text-2xl font-black uppercase text-white sm:text-3xl lg:text-4xl">
+              Пришлите чертёж — посчитаем
+            </h2>
+            <p className="mt-5 text-base text-steel-light sm:text-lg">
+              Ответим в рабочее время: пн–пт с 7:00 до 16:00. Если удобнее голосом — звоните на{" "}
+              <a href="tel:+79287771888" className="font-bold text-white hover:text-red">
+                +7 928 777-18-88
+              </a>{" "}
+              или пишите в WhatsApp.
+            </p>
+            <p className="mt-4 text-sm text-steel">
+              [Срок ответа и минимальный объём заказа — уточнить у клиента.]
+            </p>
+          </div>
+
+          <div className="rounded-md bg-white p-6 sm:p-8">
+            {submitted ? (
+              <div className="flex flex-col items-center justify-center py-10 text-center">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-100">
+                  <Check className="h-7 w-7 text-green-600" strokeWidth={2} />
+                </div>
+                <p className="mt-4 text-lg font-bold text-graphite">
+                  Заявка отправлена. Перезвоним в рабочее время.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="name" className="mb-1 block text-sm font-medium text-graphite">
+                    Имя
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    required
+                    placeholder="Ваше имя"
+                    className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite placeholder:text-steel focus:border-red focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="mb-1 block text-sm font-medium text-graphite">
+                    Телефон
+                  </label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    required
+                    placeholder="+7 (___) ___-__-__"
+                    className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite placeholder:text-steel focus:border-red focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="details" className="mb-1 block text-sm font-medium text-graphite">
+                    Что нужно изготовить
+                  </label>
+                  <textarea
+                    id="details"
+                    required
+                    rows={4}
+                    placeholder="Например: анкерные болты М24×800, 120 шт."
+                    className="w-full resize-none rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite placeholder:text-steel focus:border-red focus:outline-none"
+                  />
+                </div>
+                <label className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    required
+                    className="mt-1 h-4 w-4 shrink-0 accent-red"
+                  />
+                  <span className="text-sm text-steel">
+                    Согласие на обработку персональных данных
+                  </span>
+                </label>
+                <button
+                  type="submit"
+                  className="w-full rounded-md bg-red px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-hover"
+                >
+                  Отправить заявку
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ContactsSection() {
+  return (
+    <section id="contacts" className="scroll-mt-20 bg-light py-16 sm:py-20 lg:py-24">
+      <div className="container-factory">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="max-w-xl">
+            <h2 className="heading-tight text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
+              Контакты
+            </h2>
+            <div className="mt-6 space-y-4">
+              <div className="flex items-start gap-3">
+                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-red" strokeWidth={1.5} />
+                <div>
+                  <p className="font-bold text-graphite">Адрес</p>
+                  <p className="text-steel">г. Ростов-на-Дону, ул. Монтажная, 6, офис 19</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Phone className="mt-0.5 h-5 w-5 shrink-0 text-red" strokeWidth={1.5} />
+                <div>
+                  <p className="font-bold text-graphite">Телефоны</p>
+                  <a href="tel:+79287771888" className="block text-steel hover:text-red">+7 928 777-18-88</a>
+                  <a href="tel:+79081709954" className="block text-steel hover:text-red">+7 908 170-99-54</a>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-red" strokeWidth={1.5} />
+                <div>
+                  <p className="font-bold text-graphite">Почта</p>
+                  <a href="mailto:rvrs@rambler.ru" className="text-steel hover:text-red">rvrs@rambler.ru</a>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Clock className="mt-0.5 h-5 w-5 shrink-0 text-red" strokeWidth={1.5} />
+                <div>
+                  <p className="font-bold text-graphite">Режим работы</p>
+                  <p className="text-steel">пн–пт, 7:00–16:00</p>
+                </div>
+              </div>
+              <div className="pt-2 text-sm text-steel">
+                Реквизиты: [ИНН, ОГРН, расчётный счёт — со слов клиента]
+              </div>
+            </div>
+          </div>
+
+          <div className="flex w-full items-center justify-center rounded-md border border-border bg-white p-6">
+            <span className="text-sm font-medium text-steel">[карта проезда: Монтажная, 6]</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="bg-graphite-dark py-10 sm:py-12">
+      <div className="container-factory">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="sm:col-span-2 lg:col-span-1">
+            <a href="/" className="flex flex-col">
+              <span className="text-lg font-bold leading-tight tracking-tight text-white sm:text-xl">
+                ООО «Ростовский гибочный завод»
+              </span>
+              <span className="mt-1 text-xs text-steel">Анкерные болты, закладные детали, металлоконструкции</span>
+            </a>
+          </div>
+
+          <nav className="flex flex-col gap-2">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-sm text-steel-light transition-colors hover:text-white"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="text-sm text-steel-light">
+            <p>© ООО «РГЗ», 2014–2026</p>
+            <p className="mt-2">[политика обработки персональных данных]</p>
+          </div>
+
+          <div className="text-sm text-steel-light lg:text-right">
+            <p>г. Ростов-на-Дону, ул. Монтажная, 6</p>
+            <a href="tel:+79287771888" className="mt-1 block hover:text-white">+7 928 777-18-88</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function WhatsAppButton() {
+  return (
+    <a
+      href="https://wa.me/79287771888"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Написать в WhatsApp"
+      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-red text-white shadow-lg transition-transform hover:scale-110 hover:bg-red-hover"
+    >
+      <MessageCircle className="h-7 w-7" strokeWidth={1.5} />
+    </a>
+  );
+}
+
 function Index() {
   return (
     <div className="min-h-screen bg-light">
@@ -519,7 +731,11 @@ function Index() {
         <PopularPositionsSection />
         <WorkflowSection />
         <AboutSection />
+        <RequestSection />
+        <ContactsSection />
       </main>
+      <Footer />
+      <WhatsAppButton />
     </div>
   );
 }
