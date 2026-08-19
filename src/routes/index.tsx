@@ -90,19 +90,19 @@ function TopBar() {
       <div className="container-factory">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 py-2 text-xs sm:flex sm:flex-wrap sm:justify-between sm:gap-4">
           <div className="flex min-w-0 items-center gap-1.5">
-            <MapPin className="h-3.5 w-3.5 shrink-0 text-steel" />
+            <MapPin aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-steel" />
             <span className="truncate">г. Ростов-на-Дону, ул. Монтажная, 6</span>
           </div>
           <div className="flex shrink-0 items-center gap-4">
             <div className="hidden items-center gap-1.5 sm:flex">
-              <Clock className="h-3.5 w-3.5 shrink-0 text-steel" />
+              <Clock aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-steel" />
               <span>пн–пт 7:00–16:00</span>
             </div>
             <a
               href="mailto:rvrs@rambler.ru"
               className="flex items-center gap-1.5 transition-colors hover:text-white"
             >
-              <Mail className="h-3.5 w-3.5 shrink-0 text-steel" />
+              <Mail aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-steel" />
               <span className="hidden sm:inline">rvrs@rambler.ru</span>
               <span className="sm:hidden">Почта</span>
             </a>
@@ -142,7 +142,7 @@ function Header() {
           </nav>
 
           <div className="hidden items-end gap-6 md:flex">
-            <a href="tel:+79287771888" className="flex flex-col items-end">
+            <a href="tel:+79287771888" className="flex min-h-11 flex-col items-end justify-center">
               <span className="text-lg font-bold leading-tight tracking-tight text-graphite">
                 +7 928 777-18-88
               </span>
@@ -157,7 +157,7 @@ function Header() {
             aria-label={mobileOpen ? "Закрыть меню" : "Открыть меню"}
             aria-expanded={mobileOpen}
           >
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {mobileOpen ? <X aria-hidden="true" className="h-6 w-6" /> : <Menu aria-hidden="true" className="h-6 w-6" />}
           </button>
         </div>
       </div>
@@ -181,7 +181,7 @@ function Header() {
               href="tel:+79287771888"
               className="mt-4 flex items-center gap-2 border-t border-border pt-4 text-base font-bold text-graphite"
             >
-              <Phone className="h-4 w-4 shrink-0 text-red" />
+              <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-red" />
               +7 928 777-18-88
             </a>
             <span className="mt-1 text-xs text-steel">звоните: пн–пт, 7:00–16:00</span>
@@ -305,7 +305,7 @@ function ProductsSection() {
           </div>
           <a
             href="#request"
-            className="inline-flex items-center justify-center rounded-md bg-red px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-hover shrink-0"
+            className="inline-flex items-center justify-center rounded-md bg-red min-h-12 px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-hover shrink-0"
           >
             Запросить прайс
           </a>
@@ -320,7 +320,7 @@ function ProductsSection() {
                 className="group rounded-md border border-border bg-white p-5 transition-all hover:-translate-y-1 hover:border-red sm:p-6"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-sm border border-border bg-light">
-                  <Icon className="h-6 w-6 shrink-0 text-graphite" strokeWidth={1.5} />
+                  <Icon aria-hidden="true" className="h-6 w-6 shrink-0 text-graphite" strokeWidth={1.5} />
                 </div>
                 <h3 className="mt-4 text-lg font-bold text-graphite">{product.title}</h3>
                 <p className="mt-1 text-sm text-steel">{product.description}</p>
@@ -379,7 +379,7 @@ function ManufacturingSection() {
                 className="group rounded-md border border-border bg-white p-5 transition-all hover:-translate-y-1 hover:border-red sm:p-6"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-sm border border-border bg-light">
-                  <Icon className="h-6 w-6 shrink-0 text-graphite" strokeWidth={1.5} />
+                  <Icon aria-hidden="true" className="h-6 w-6 shrink-0 text-graphite" strokeWidth={1.5} />
                 </div>
                 <h3 className="mt-4 text-lg font-bold text-graphite">{cap.title}</h3>
                 <p className="mt-1 text-sm text-steel">{cap.description}</p>
@@ -430,7 +430,7 @@ function PopularPositionsSection() {
           </div>
           <a
             href="#catalog"
-            className="inline-flex shrink-0 items-center justify-center rounded-md border border-border bg-white px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-graphite transition-colors hover:border-red hover:text-red"
+            className="inline-flex shrink-0 items-center justify-center rounded-md border border-border bg-white min-h-12 px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-graphite transition-colors hover:border-red hover:text-red"
           >
             Весь каталог с ценами
           </a>
@@ -450,7 +450,7 @@ function PopularPositionsSection() {
                 <p className="mt-3 text-xl font-black text-red">{item.price}</p>
                 <a
                   href="#request"
-                  className="mt-5 inline-flex items-center justify-center rounded-md border border-graphite bg-white px-5 py-3 text-center text-sm font-bold uppercase tracking-wide text-graphite transition-colors hover:bg-graphite hover:text-white"
+                  className="mt-5 inline-flex items-center justify-center rounded-md border border-graphite bg-white min-h-12 px-5 py-3 text-center text-sm font-bold uppercase tracking-wide text-graphite transition-colors hover:bg-graphite hover:text-white"
                 >
                   Заказать
                 </a>
@@ -530,7 +530,7 @@ function AboutSection() {
             <div className="w-full rounded-md border border-border bg-light p-6 sm:p-8">
               <div className="flex items-start gap-4 sm:gap-5">
                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-sm bg-white sm:h-16 sm:w-16">
-                  <Medal className="h-8 w-8 text-red sm:h-9 sm:w-9" strokeWidth={1.5} />
+                  <Medal aria-hidden="true" className="h-8 w-8 text-red sm:h-9 sm:w-9" strokeWidth={1.5} />
                 </div>
                 <div>
                   <p className="text-lg font-black text-graphite sm:text-xl">
@@ -580,7 +580,7 @@ function RequestSection() {
             {submitted ? (
               <div className="flex flex-col items-center justify-center py-10 text-center">
                 <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-100">
-                  <Check className="h-7 w-7 text-green-600" strokeWidth={2} />
+                  <Check aria-hidden="true" className="h-7 w-7 text-green-600" strokeWidth={2} />
                 </div>
                 <p className="mt-4 text-lg font-bold text-graphite">
                   Заявка отправлена. Перезвоним в рабочее время.
@@ -636,7 +636,7 @@ function RequestSection() {
                 </label>
                 <button
                   type="submit"
-                  className="w-full rounded-md bg-red px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-hover"
+                  className="w-full rounded-md bg-red min-h-12 px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-hover"
                 >
                   Отправить заявку
                 </button>
@@ -660,29 +660,29 @@ function ContactsSection() {
             </h2>
             <div className="mt-6 space-y-4">
               <div className="flex items-start gap-3">
-                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-red" strokeWidth={1.5} />
+                <MapPin aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-red" strokeWidth={1.5} />
                 <div>
                   <p className="font-bold text-graphite">Адрес</p>
                   <p className="text-steel">г. Ростов-на-Дону, ул. Монтажная, 6, офис 19</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Phone className="mt-0.5 h-5 w-5 shrink-0 text-red" strokeWidth={1.5} />
+                <Phone aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-red" strokeWidth={1.5} />
                 <div>
                   <p className="font-bold text-graphite">Телефоны</p>
-                  <a href="tel:+79287771888" className="block text-steel hover:text-red">+7 928 777-18-88</a>
-                  <a href="tel:+79081709954" className="block text-steel hover:text-red">+7 908 170-99-54</a>
+                  <a href="tel:+79287771888" className="block py-1.5 text-base text-steel hover:text-red">+7 928 777-18-88</a>
+                  <a href="tel:+79081709954" className="block py-1.5 text-base text-steel hover:text-red">+7 908 170-99-54</a>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-red" strokeWidth={1.5} />
+                <Mail aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-red" strokeWidth={1.5} />
                 <div>
                   <p className="font-bold text-graphite">Почта</p>
-                  <a href="mailto:rvrs@rambler.ru" className="text-steel hover:text-red">rvrs@rambler.ru</a>
+                  <a href="mailto:rvrs@rambler.ru" className="inline-block py-1.5 text-base text-steel hover:text-red">rvrs@rambler.ru</a>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Clock className="mt-0.5 h-5 w-5 shrink-0 text-red" strokeWidth={1.5} />
+                <Clock aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-red" strokeWidth={1.5} />
                 <div>
                   <p className="font-bold text-graphite">Режим работы</p>
                   <p className="text-steel">пн–пт, 7:00–16:00</p>
@@ -736,7 +736,7 @@ function Footer() {
 
           <div className="text-sm text-steel-light lg:text-right">
             <p>г. Ростов-на-Дону, ул. Монтажная, 6</p>
-            <a href="tel:+79287771888" className="mt-1 block hover:text-white">+7 928 777-18-88</a>
+            <a href="tel:+79287771888" className="mt-1 inline-block py-1.5 text-base hover:text-white">+7 928 777-18-88</a>
           </div>
         </div>
       </div>
@@ -753,7 +753,7 @@ function WhatsAppButton() {
       aria-label="Написать в WhatsApp"
       className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-red text-white shadow-lg transition-transform hover:scale-110 hover:bg-red-hover"
     >
-      <MessageCircle className="h-7 w-7" strokeWidth={1.5} />
+      <MessageCircle aria-hidden="true" className="h-7 w-7" strokeWidth={1.5} />
     </a>
   );
 }
