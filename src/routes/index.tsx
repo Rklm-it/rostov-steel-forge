@@ -27,14 +27,52 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Ростовский гибочный завод — анкерные болты и металлоконструкции по ГОСТ" },
-      { name: "description", content: "ООО «Ростовский гибочный завод» изготавливает анкерные болты, закладные детали и металлоконструкции по ГОСТ. Лазерная резка ЧПУ, гибка, сварка, порошковая окраска. Ростов-на-Дону, доставка по России." },
-      { property: "og:title", content: "Ростовский гибочный завод — анкерные болты и металлоконструкции по ГОСТ" },
-      { property: "og:description", content: "Собственное производство в Ростове-на-Дону. Лазерная резка ЧПУ, гибка, сварка и порошковая окраска. Доставка по всей России." },
+      { title: "Ростовский гибочный завод — анкерные болты и металлоконструкции по ГОСТ, Ростов-на-Дону" },
+      { name: "description", content: "Производство анкерных болтов, закладных деталей и металлоконструкций по ГОСТ с 2014 года. Лазерная резка ЧПУ, гибка, порошковая окраска. Доставка по всей России." },
+      { property: "og:title", content: "Ростовский гибочный завод — анкерные болты и металлоконструкции по ГОСТ, Ростов-на-Дону" },
+      { property: "og:description", content: "Производство анкерных болтов, закладных деталей и металлоконструкций по ГОСТ с 2014 года. Лазерная резка ЧПУ, гибка, порошковая окраска. Доставка по всей России." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+      { property: "og:site_name", content: "ООО «Ростовский гибочный завод»" },
+      { property: "og:locale", content: "ru_RU" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Ростовский гибочный завод — анкерные болты и металлоконструкции по ГОСТ, Ростов-на-Дону" },
+      { name: "twitter:description", content: "Производство анкерных болтов, закладных деталей и металлоконструкций по ГОСТ с 2014 года. Лазерная резка ЧПУ, гибка, порошковая окраска. Доставка по всей России." },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "ООО «Ростовский гибочный завод»",
+          alternateName: "РГЗ",
+          description:
+            "Производство анкерных болтов, закладных деталей и металлоконструкций по ГОСТ. Лазерная резка ЧПУ, гибка, сварка, порошковая окраска металла.",
+          foundingDate: "2014",
+          telephone: "+7 928 777-18-88",
+          email: "rvrs@rambler.ru",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "ул. Монтажная, 6",
+            addressLocality: "Ростов-на-Дону",
+            addressCountry: "RU",
+          },
+          openingHoursSpecification: [
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              opens: "07:00",
+              closes: "16:00",
+            },
+          ],
+          areaServed: "RU",
+        }),
+      },
     ],
   }),
+
   component: Index,
 });
 
