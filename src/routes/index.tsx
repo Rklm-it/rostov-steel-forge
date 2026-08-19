@@ -13,6 +13,7 @@ import {
   Layers,
   Mail,
   MapPin,
+  Medal,
   Menu,
   PanelTop,
   Phone,
@@ -456,6 +457,56 @@ function WorkflowSection() {
   );
 }
 
+function AboutSection() {
+  return (
+    <section id="about" className="scroll-mt-20 bg-white py-16 sm:py-20 lg:py-24">
+      <div className="container-factory">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="max-w-2xl">
+            <h2 className="heading-tight text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
+              О заводе
+            </h2>
+            <div className="mt-6 space-y-4 text-base text-graphite sm:text-lg">
+              <p>
+                ООО «Ростовский гибочный завод» с 2014 года занимается производством и продажей
+                металлоконструкций, анкерных болтов и метизной продукции.
+              </p>
+              <p>
+                Для изготовления используются лазерные станки с ЧПУ, листогибочные прессы,
+                сварочные аппараты и камеры для нанесения полимерного напыления от ведущих
+                мировых производителей. Компания предлагает услуги по гибке, резке и порошковой
+                окраске металла.
+              </p>
+              <p>Доставка производится по всей России.</p>
+            </div>
+            <p className="mt-6 text-sm text-steel">
+              [Здесь добавим: площадь производства, число сотрудников, крупные объекты — со слов
+              клиента.]
+            </p>
+          </div>
+
+          <div className="flex items-start">
+            <div className="w-full rounded-md border border-border bg-light p-6 sm:p-8">
+              <div className="flex items-start gap-4 sm:gap-5">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-sm bg-white sm:h-16 sm:w-16">
+                  <Medal className="h-8 w-8 text-red sm:h-9 sm:w-9" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <p className="text-lg font-black text-graphite sm:text-xl">
+                    Лучшее предприятие отрасли — 2020
+                  </p>
+                  <p className="mt-1 text-sm text-steel">Национальный сертификат</p>
+                  <p className="mt-4 text-xs text-steel">[скан сертификата]</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Index() {
   return (
     <div className="min-h-screen bg-light">
@@ -467,6 +518,7 @@ function Index() {
         <ManufacturingSection />
         <PopularPositionsSection />
         <WorkflowSection />
+        <AboutSection />
       </main>
     </div>
   );
