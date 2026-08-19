@@ -1,24 +1,199 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { Menu, X, MapPin, Clock, Mail, Phone } from "lucide-react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Ростовский гибочный завод — анкерные болты и металлоконструкции по ГОСТ" },
+      { name: "description", content: "ООО «Ростовский гибочный завод» изготавливает анкерные болты, закладные детали и металлоконструкции по ГОСТ. Лазерная резка ЧПУ, гибка, сварка, порошковая окраска. Ростов-на-Дону, доставка по России." },
+      { property: "og:title", content: "Ростовский гибочный завод — анкерные болты и металлоконструкции по ГОСТ" },
+      { property: "og:description", content: "Собственное производство в Ростове-на-Дону. Лазерная резка ЧПУ, гибка, сварка и порошковая окраска. Доставка по всей России." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+const navItems = [
+  { label: "Каталог", href: "#catalog" },
+  { label: "Услуги", href: "#services" },
+  { label: "Как работаем", href: "#workflow" },
+  { label: "О заводе", href: "#about" },
+  { label: "Контакты", href: "#contacts" },
+];
+
+function TopBar() {
+  return (
+    <div className="bg-graphite-dark text-steel-light">
+      <div className="container-factory">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 py-2 text-xs sm:flex sm:flex-wrap sm:justify-between sm:gap-4">
+          <div className="flex min-w-0 items-center gap-1.5">
+            <MapPin className="h-3.5 w-3.5 shrink-0 text-steel" />
+            <span className="truncate">г. Ростов-на-Дону, ул. Монтажная, 6</span>
+          </div>
+          <div className="flex shrink-0 items-center gap-4">
+            <div className="hidden items-center gap-1.5 sm:flex">
+              <Clock className="h-3.5 w-3.5 shrink-0 text-steel" />
+              <span>пн–пт 7:00–16:00</span>
+            </div>
+            <a
+              href="mailto:rvrs@rambler.ru"
+              className="flex items-center gap-1.5 transition-colors hover:text-white"
+            >
+              <Mail className="h-3.5 w-3.5 shrink-0 text-steel" />
+              <span className="hidden sm:inline">rvrs@rambler.ru</span>
+              <span className="sm:hidden">Почта</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Header() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-border bg-white shadow-sm">
+      <div className="container-factory">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-3 sm:flex sm:flex-wrap sm:justify-between">
+          <a href="/" className="flex min-w-0 flex-col">
+            <span className="text-lg font-bold leading-tight tracking-tight text-graphite sm:text-xl">
+              Ростовский гибочный завод
+            </span>
+            <span className="text-[11px] font-medium tracking-wide text-steel sm:text-xs">
+              производство с 2014 года
+            </span>
+          </a>
+
+          <nav className="hidden items-center gap-6 lg:flex">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-sm font-medium text-graphite transition-colors hover:text-red"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="hidden items-end gap-6 md:flex">
+            <a href="tel:+79287771888" className="flex flex-col items-end">
+              <span className="text-lg font-bold leading-tight tracking-tight text-graphite">
+                +7 928 777-18-88
+              </span>
+              <span className="text-[11px] font-medium text-steel">звоните: пн–пт, 7:00–16:00</span>
+            </a>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setMobileOpen((v) => !v)}
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-md text-graphite hover:bg-light lg:hidden"
+            aria-label={mobileOpen ? "Закрыть меню" : "Открыть меню"}
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
+      </div>
+
+      {mobileOpen && (
+        <div className="border-t border-border bg-white lg:hidden">
+          <div className="container-factory flex flex-col py-3">
+            <nav className="flex flex-col">
+              {navItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="py-2.5 text-sm font-medium text-graphite transition-colors hover:text-red"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+            <a
+              href="tel:+79287771888"
+              className="mt-4 flex items-center gap-2 border-t border-border pt-4 text-base font-bold text-graphite"
+            >
+              <Phone className="h-4 w-4 shrink-0 text-red" />
+              +7 928 777-18-88
+            </a>
+            <span className="mt-1 text-xs text-steel">звоните: пн–пт, 7:00–16:00</span>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}
+
+function HeroSection() {
+  return (
+    <section className="section-metal relative overflow-hidden">
+      <div className="container-factory relative py-16 sm:py-20 lg:py-28">
+        <div className="max-w-4xl">
+          <h1 className="heading-tighter text-3xl font-black uppercase text-white sm:text-5xl lg:text-6xl">
+            Анкерные болты и{" "}
+            <span className="text-red">металлоконструкции</span>{" "}
+            по ГОСТ
+          </h1>
+          <p className="mt-5 max-w-2xl text-base text-steel-light sm:text-lg">
+            Собственное производство в Ростове-на-Дону: лазерная резка с ЧПУ, гибка на
+            листогибочных прессах, сварка и порошковая окраска. Изготовим по вашему чертежу.
+            Доставка по всей России.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="#request"
+              className="inline-flex items-center justify-center rounded-md bg-red px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-hover"
+            >
+              Рассчитать по чертежу
+            </a>
+            <a
+              href="#catalog"
+              className="inline-flex items-center justify-center rounded-md border border-white/30 bg-transparent px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-white/10"
+            >
+              Смотреть каталог
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-md bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { value: "12 лет", label: "работаем с 2014 года" },
+            { value: "Свой парк", label: "станки ЧПУ, прессы, покраска" },
+            { value: "По России", label: "доставка в любой регион" },
+            { value: "2020", label: "«Лучшее предприятие отрасли»" },
+          ].map((fact) => (
+            <div
+              key={fact.label}
+              className="bg-graphite px-5 py-5 sm:px-6 sm:py-6"
+            >
+              <div className="text-lg font-bold tracking-tight text-white sm:text-xl">
+                {fact.value}
+              </div>
+              <div className="mt-1 text-sm text-steel-light">{fact.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-light">
+      <TopBar />
+      <Header />
+      <main>
+        <HeroSection />
+      </main>
     </div>
   );
 }
