@@ -197,7 +197,7 @@ function HeroSection() {
     <section className="section-metal relative overflow-hidden">
       <div className="container-factory relative py-16 sm:py-20 lg:py-28">
         <div className="max-w-4xl">
-          <h1 className="heading-tighter text-3xl font-black uppercase text-white sm:text-5xl lg:text-6xl">
+          <h1 className="heading-tighter break-words text-[22px] font-black uppercase text-white min-[380px]:text-[26px] min-[430px]:text-3xl sm:text-5xl lg:text-6xl">
             Анкерные болты и{" "}
             <span className="text-red">металлоконструкции</span>{" "}
             по ГОСТ
@@ -210,17 +210,18 @@ function HeroSection() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
               href="#request"
-              className="inline-flex items-center justify-center rounded-md bg-red px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-hover"
+              className="inline-flex min-h-12 items-center justify-center rounded-md bg-red px-6 py-4 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-hover"
             >
               Рассчитать по чертежу
             </a>
             <a
               href="#catalog"
-              className="inline-flex items-center justify-center rounded-md border border-white/30 bg-transparent px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-white/10"
+              className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/30 bg-transparent px-6 py-4 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-white/10"
             >
               Смотреть каталог
             </a>
           </div>
+
         </div>
 
         <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-md bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
