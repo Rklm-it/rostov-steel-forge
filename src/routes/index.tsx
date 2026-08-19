@@ -421,6 +421,41 @@ function PopularPositionsSection() {
   );
 }
 
+function WorkflowSection() {
+  const steps = [
+    "Заявка с чертежом",
+    "Согласование работ",
+    "Выставление счёта",
+    "Заключение договора",
+    "Изготовление",
+    "Доставка и отгрузка",
+  ];
+
+  return (
+    <section id="workflow" className="scroll-mt-20 bg-light py-16 sm:py-20 lg:py-24">
+      <div className="container-factory">
+        <h2 className="heading-tight text-center text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
+          Как проходит заказ
+        </h2>
+
+        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+          {steps.map((step, index) => (
+            <div
+              key={step}
+              className="group flex flex-col items-center text-center"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red text-lg font-black text-white transition-transform group-hover:scale-110">
+                {index + 1}
+              </div>
+              <p className="mt-4 text-base font-bold text-graphite">{step}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Index() {
   return (
     <div className="min-h-screen bg-light">
@@ -431,6 +466,7 @@ function Index() {
         <ProductsSection />
         <ManufacturingSection />
         <PopularPositionsSection />
+        <WorkflowSection />
       </main>
     </div>
   );
