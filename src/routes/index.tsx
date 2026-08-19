@@ -442,9 +442,14 @@ function PopularPositionsSection() {
               key={item.title}
               className="group flex flex-col rounded-md border border-border bg-white transition-all hover:-translate-y-1 hover:border-red"
             >
-              <div className="flex aspect-[4/3] items-center justify-center bg-light p-4">
+              <div
+                role="img"
+                aria-label={`${item.title} — изображение будет добавлено`}
+                className="flex aspect-[4/3] items-center justify-center bg-light p-4"
+              >
                 <span className="text-center text-sm font-medium text-steel">{item.photo}</span>
               </div>
+
               <div className="flex flex-col p-5 sm:p-6">
                 <h3 className="text-base font-bold leading-snug text-graphite">{item.title}</h3>
                 <p className="mt-3 text-xl font-black text-red">{item.price}</p>
