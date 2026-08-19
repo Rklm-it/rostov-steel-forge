@@ -201,6 +201,92 @@ function HeroSection() {
   );
 }
 
+function ProductsSection() {
+  const products = [
+    {
+      icon: Anchor,
+      title: "Анкерные болты",
+      description: "фундаментные, по ГОСТ 24379.1-2012",
+    },
+    {
+      icon: Layers,
+      title: "Блоки анкерных болтов",
+      description: "в сборе, готовые к монтажу",
+    },
+    {
+      icon: Building2,
+      title: "Металлоконструкции",
+      description: "фермы, балки, каркасы",
+    },
+    {
+      icon: Puzzle,
+      title: "Закладные детали",
+      description: "стальные МН, по чертежу",
+    },
+    {
+      icon: PanelTop,
+      title: "Гибка листового металла",
+      description: "листогибочные прессы",
+    },
+    {
+      icon: ScanLine,
+      title: "Резка металла",
+      description: "лазерные станки с ЧПУ",
+    },
+    {
+      icon: Box,
+      title: "Другие товары",
+      description: "метизная продукция",
+    },
+    {
+      icon: FilePenLine,
+      title: "Изделия по чертежу",
+      description: "пришлите эскиз, посчитаем",
+    },
+  ];
+
+  return (
+    <section id="catalog" className="bg-light py-16 sm:py-20 lg:py-24">
+      <div className="container-factory">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-3xl">
+            <h2 className="heading-tight text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
+              Что мы производим
+            </h2>
+            <p className="mt-4 max-w-2xl text-base text-steel sm:text-lg">
+              Изготавливаем по ГОСТ и по чертежам заказчика — от одиночных деталей до партий на объект
+            </p>
+          </div>
+          <a
+            href="#request"
+            className="inline-flex items-center justify-center rounded-md bg-red px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-hover shrink-0"
+          >
+            Запросить прайс
+          </a>
+        </div>
+
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {products.map((product) => {
+            const Icon = product.icon;
+            return (
+              <div
+                key={product.title}
+                className="group rounded-md border border-border bg-white p-5 transition-all hover:-translate-y-1 hover:border-red sm:p-6"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-sm border border-border bg-light">
+                  <Icon className="h-6 w-6 shrink-0 text-graphite" strokeWidth={1.5} />
+                </div>
+                <h3 className="mt-4 text-lg font-bold text-graphite">{product.title}</h3>
+                <p className="mt-1 text-sm text-steel">{product.description}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Index() {
   return (
     <div className="min-h-screen bg-light">
@@ -208,6 +294,7 @@ function Index() {
       <Header />
       <main>
         <HeroSection />
+        <ProductsSection />
       </main>
     </div>
   );
