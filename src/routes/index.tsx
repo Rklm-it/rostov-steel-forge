@@ -13,6 +13,7 @@ import {
   Layers,
   Mail,
   MapPin,
+  Medal,
   Menu,
   PanelTop,
   Phone,
