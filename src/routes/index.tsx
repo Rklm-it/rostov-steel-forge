@@ -350,7 +350,76 @@ function ManufacturingSection() {
   );
 }
 
+function PopularPositionsSection() {
+  const items = [
+    {
+      title: "Изготовление фундаментных болтов ГОСТ 24379.1-2012",
+      price: "от 150 ₽/шт.",
+      photo: "[фото: фундаментные болты]",
+    },
+    {
+      title: "Изготовление закладных деталей стальных МН",
+      price: "от 100 ₽/шт.",
+      photo: "[фото: закладные детали]",
+    },
+    {
+      title: "Фундаментная шпилька ГОСТ 24379.1-2012",
+      price: "от 357 ₽/шт.",
+      photo: "[фото: фундаментная шпилька]",
+    },
+    {
+      title: "Скоба накладная ГОСТ 14098-91",
+      price: "от 35 ₽/шт.",
+      photo: "[фото: скоба накладная]",
+    },
+  ];
 
+  return (
+    <section id="popular" className="scroll-mt-20 bg-white py-16 sm:py-20 lg:py-24">
+      <div className="container-factory">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-3xl">
+            <h2 className="heading-tight text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
+              Популярные позиции
+            </h2>
+            <p className="mt-4 max-w-2xl text-base text-steel sm:text-lg">
+              Цены — от, окончательная зависит от объёма, марки стали и покрытия.
+            </p>
+          </div>
+          <a
+            href="#catalog"
+            className="inline-flex shrink-0 items-center justify-center rounded-md border border-border bg-white px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-graphite transition-colors hover:border-red hover:text-red"
+          >
+            Весь каталог с ценами
+          </a>
+        </div>
+
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {items.map((item) => (
+            <div
+              key={item.title}
+              className="group flex flex-col rounded-md border border-border bg-white transition-all hover:-translate-y-1 hover:border-red"
+            >
+              <div className="flex aspect-[4/3] items-center justify-center bg-light p-4">
+                <span className="text-center text-sm font-medium text-steel">{item.photo}</span>
+              </div>
+              <div className="flex flex-col p-5 sm:p-6">
+                <h3 className="text-base font-bold leading-snug text-graphite">{item.title}</h3>
+                <p className="mt-3 text-xl font-black text-red">{item.price}</p>
+                <a
+                  href="#request"
+                  className="mt-5 inline-flex items-center justify-center rounded-md border border-graphite bg-white px-5 py-3 text-center text-sm font-bold uppercase tracking-wide text-graphite transition-colors hover:bg-graphite hover:text-white"
+                >
+                  Заказать
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function Index() {
   return (
@@ -361,6 +430,7 @@ function Index() {
         <HeroSection />
         <ProductsSection />
         <ManufacturingSection />
+        <PopularPositionsSection />
       </main>
     </div>
   );
