@@ -4,17 +4,21 @@ import {
   Anchor,
   Box,
   Building2,
+  Clock,
+  CornerUpLeft,
+  Crosshair,
+  Droplets,
   FilePenLine,
+  Flame,
   Layers,
+  Mail,
+  MapPin,
   Menu,
   PanelTop,
   Phone,
   Puzzle,
   ScanLine,
   X,
-  MapPin,
-  Clock,
-  Mail,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -287,6 +291,67 @@ function ProductsSection() {
   );
 }
 
+function ManufacturingSection() {
+  const capabilities = [
+    {
+      icon: Crosshair,
+      title: "Лазерная резка",
+      description: "Раскрой листа на станках с ЧПУ: точная геометрия, чистый рез, повторяемость в партии.",
+    },
+    {
+      icon: CornerUpLeft,
+      title: "Гибка",
+      description: "Листогибочные прессы: гнутые профили и детали по вашим размерам.",
+    },
+    {
+      icon: Flame,
+      title: "Сварка",
+      description: "Сборка конструкций и блоков анкерных болтов в готовые узлы.",
+    },
+    {
+      icon: Droplets,
+      title: "Порошковая окраска",
+      description: "Камеры полимерного напыления: защита металла и цвет по каталогу RAL.",
+    },
+  ];
+
+  return (
+    <section id="services" className="bg-light py-16 sm:py-20 lg:py-24">
+      <div className="container-factory">
+        <div className="max-w-3xl">
+          <h2 className="heading-tight text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
+            Производство
+          </h2>
+          <p className="mt-4 text-base text-steel sm:text-lg">
+            Лазерные станки с ЧПУ, листогибочные прессы, сварочные аппараты и камеры
+            полимерного напыления от ведущих мировых производителей.
+          </p>
+        </div>
+
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {capabilities.map((cap) => {
+            const Icon = cap.icon;
+            return (
+              <div
+                key={cap.title}
+                className="group rounded-md border border-border bg-white p-5 transition-all hover:-translate-y-1 hover:border-red sm:p-6"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-sm border border-border bg-light">
+                  <Icon className="h-6 w-6 shrink-0 text-graphite" strokeWidth={1.5} />
+                </div>
+                <h3 className="mt-4 text-lg font-bold text-graphite">{cap.title}</h3>
+                <p className="mt-1 text-sm text-steel">{cap.description}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
 function Index() {
   return (
     <div className="min-h-screen bg-light">
@@ -295,6 +360,7 @@ function Index() {
       <main>
         <HeroSection />
         <ProductsSection />
+        <ManufacturingSection />
       </main>
     </div>
   );
