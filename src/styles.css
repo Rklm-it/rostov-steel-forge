@@ -43,23 +43,26 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* Factory semantic tokens */
-  --color-graphite: #1e2328;
-  --color-graphite-dark: #14171a;
-  --color-accent: #1d5ea8;
-  --color-accent-hover: #17497f;
-  --color-accent-soft: #eaf1f9;
-  /* На графите синий #1D5EA8 тёмный и почти не читается — для тёмных секций
-     отдельный светлый тон. */
-  --color-accent-light: #5b9be0;
-  /* WhatsApp — чужой бренд: кнопка должна быть его зелёной, иначе её просто
-     не узнают в углу экрана. */
+  /* Factory semantic tokens
+   *
+   * Палитра «горячий металл»: графит цеха и янтарь раскалённой заготовки.
+   * Красный был тревожным, синий — правильным, но пресным; янтарь читается
+   * как искра из-под лазера и держит тёмный фон, ради которого всё затевалось.
+   */
+  --color-ink: #0c0e10;
+  --color-graphite: #14181c;
+  --color-graphite-dark: #0c0e10;
+  --color-panel: #1b2126;
+  --color-accent: #d9761a;
+  --color-accent-hover: #bd6314;
+  --color-accent-light: #ffa94d;
+  --color-accent-soft: #fdf1e4;
+  --color-light: #f3f4f6;
+  --color-white: #ffffff;
+  --color-steel: #79838c;
+  --color-steel-light: #a8b0b7;
   --color-whatsapp: #25d366;
   --color-whatsapp-hover: #1eb85a;
-  --color-light: #f4f5f7;
-  --color-white: #ffffff;
-  --color-steel: #6b737c;
-  --color-steel-light: #a5abb1;
 }
 
 :root {
@@ -70,7 +73,7 @@
   --card-foreground: #14171a;
   --popover: #ffffff;
   --popover-foreground: #14171a;
-  --primary: #1d5ea8;
+  --primary: #d9761a;
   --primary-foreground: #ffffff;
   --secondary: #1e2328;
   --secondary-foreground: #ffffff;
@@ -82,7 +85,7 @@
   --destructive-foreground: #ffffff;
   --border: #d5d7db;
   --input: #d5d7db;
-  --ring: #1d5ea8;
+  --ring: #d9761a;
 }
 
 @layer base {
@@ -117,6 +120,47 @@
 @utility text-dense {
   letter-spacing: -0.02em;
   line-height: 1.1;
+}
+
+/* Чертёжная сетка: тонкая клетка плюс диагональная штриховка проката.
+   Ради неё и затевался тёмный фон — на белом это выглядит канцелярией. */
+@utility blueprint {
+  background-color: #0c0e10;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    repeating-linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.02) 0px,
+      rgba(255, 255, 255, 0.02) 1px,
+      transparent 1px,
+      transparent 9px
+    );
+  background-size:
+    56px 56px,
+    56px 56px,
+    auto;
+}
+
+/* Лента номенклатуры. Движение медленное и бесконечное — в цеху всё едет
+   ровно, дёрганая анимация здесь смотрелась бы как баннер из нулевых. */
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility marquee-track {
+  animation: marquee-left 38s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
 }
 
 @utility section-metal {

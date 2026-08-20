@@ -111,87 +111,140 @@ export const Route = createFileRoute("/")({
 
 const navItems = [
   { label: "Каталог", href: "#catalog" },
-  { label: "Услуги", href: "#services" },
+  { label: "Производство", href: "#services" },
+  { label: "Цены", href: "#price" },
   { label: "Как работаем", href: "#workflow" },
   { label: "О заводе", href: "#about" },
-  { label: "Вопросы", href: "#faq" },
   { label: "Контакты", href: "#contacts" },
 ];
 
+/** Позиции прайса — единственный источник и для калькулятора, и для таблицы. */
+const priceList = [
+  {
+    id: "bolt",
+    title: "Изготовление фундаментных болтов",
+    gost: "ГОСТ 24379.1-2012",
+    price: 150,
+  },
+  {
+    id: "stud",
+    title: "Фундаментная шпилька",
+    gost: "ГОСТ 24379.1-2012",
+    price: 357,
+  },
+  {
+    id: "plate",
+    title: "Изготовление закладных деталей стальных",
+    gost: "серия МН",
+    price: 100,
+  },
+  {
+    id: "clamp",
+    title: "Скоба накладная",
+    gost: "ГОСТ 14098-91",
+    price: 35,
+  },
+];
+
+const defaultPosition = priceList[0] ?? {
+  id: "bolt",
+  title: "Изготовление фундаментных болтов",
+  gost: "ГОСТ 24379.1-2012",
+  price: 150,
+};
+
+const noCoating = "Без покрытия";
+const coatings = [noCoating, "Оцинковка", "Порошковая окраска"];
+
 function TopBar() {
   return (
-    <div className="bg-graphite-dark text-steel-light">
+    <div className="border-b border-white/5 bg-ink text-steel">
       <div className="container-factory">
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 py-2 text-xs sm:flex sm:flex-wrap sm:justify-between sm:gap-4">
-          <div className="flex min-w-0 items-center gap-1.5">
-            <MapPin aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-steel" />
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-1 py-2 text-xs">
+          <span className="flex min-w-0 items-center gap-1.5">
+            <MapPin aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-accent" />
             <span className="truncate">г. Ростов-на-Дону, ул. Монтажная, 6</span>
-          </div>
-          <div className="flex shrink-0 items-center gap-4">
-            <div className="hidden items-center gap-1.5 sm:flex">
-              <Clock aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-steel" />
-              <span>пн–пт 7:00–16:00</span>
-            </div>
-            <a
-              href="mailto:rvrs@rambler.ru"
-              className="flex items-center gap-1.5 transition-colors hover:text-white"
-            >
-              <Mail aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-steel" />
-              <span className="hidden sm:inline">rvrs@rambler.ru</span>
-              <span className="sm:hidden">Почта</span>
-            </a>
-          </div>
+          </span>
+          <span className="hidden items-center gap-1.5 sm:flex">
+            <Clock aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-accent" />
+            пн–пт 7:00–16:00
+          </span>
+          <a
+            href="mailto:rvrs@rambler.ru"
+            className="ml-auto flex items-center gap-1.5 transition-colors hover:text-white"
+          >
+            <Mail aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-accent" />
+            rvrs@rambler.ru
+          </a>
         </div>
       </div>
     </div>
   );
 }
 
+function Logo({ tone = "dark" }: { tone?: "dark" | "light" }) {
+  const title = tone === "dark" ? "text-white" : "text-graphite";
+  return (
+    <a href="#top" className="flex min-w-0 items-center gap-3">
+      <svg viewBox="0 0 48 48" className="h-10 w-10 shrink-0" aria-hidden="true">
+        <path d="M7 35c0-11 8-19 19-19h13" stroke="#d9761a" strokeWidth="5" fill="none" />
+        <path d="M7 35h11" stroke="currentColor" strokeWidth="5" />
+        <circle cx="39" cy="16" r="4.5" fill="currentColor" />
+      </svg>
+      <span className="min-w-0">
+        <span
+          className={`block truncate text-base font-black leading-tight tracking-tight ${title} sm:text-lg`}
+        >
+          Ростовский гибочный завод
+        </span>
+        <span className="hidden text-[11px] font-semibold uppercase tracking-[0.14em] text-steel sm:block">
+          Металлоизделия по ГОСТ · с 2014 года
+        </span>
+      </span>
+    </a>
+  );
+}
+
 function Header() {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-white shadow-sm">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/95 text-white backdrop-blur">
       <div className="container-factory">
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-3 sm:flex sm:flex-wrap sm:justify-between">
-          <a href="/" className="flex min-w-0 flex-col">
-            <span className="text-lg font-bold leading-tight tracking-tight text-graphite sm:text-xl">
-              Ростовский гибочный завод
-            </span>
-            <span className="text-[11px] font-medium tracking-wide text-steel sm:text-xs">
-              производство с 2014 года
-            </span>
-          </a>
+        <div className="flex items-center gap-6 py-3">
+          {/* min-w-0 обязателен: без него обёртка логотипа не сжимается и на
+              узком экране выдавливает кнопку меню за край страницы. */}
+          <span className="min-w-0 flex-1 text-white xl:flex-none">
+            <Logo />
+          </span>
 
-          <nav className="hidden items-center gap-6 lg:flex">
+          <nav className="ml-auto hidden items-center gap-6 xl:flex">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium text-graphite transition-colors hover:text-accent"
+                className="text-sm font-semibold text-steel-light transition-colors hover:text-accent-light"
               >
                 {item.label}
               </a>
             ))}
           </nav>
 
-          <div className="hidden items-end gap-6 md:flex">
-            <a href="tel:+79287771888" className="flex min-h-11 flex-col items-end justify-center">
-              <span className="text-lg font-bold leading-tight tracking-tight text-graphite">
-                +7 928 777-18-88
-              </span>
-              <span className="text-[11px] font-medium text-steel">звоните: пн–пт, 7:00–16:00</span>
-            </a>
-          </div>
+          <a href="tel:+79287771888" className="ml-auto hidden flex-col items-end xl:ml-0 xl:flex">
+            <span className="text-lg font-black leading-tight tracking-tight text-white">
+              +7 928 777-18-88
+            </span>
+            <span className="text-[11px] font-medium text-steel">пн–пт, 7:00–16:00</span>
+          </a>
 
           <button
             type="button"
-            onClick={() => setMobileOpen((v) => !v)}
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-md text-graphite hover:bg-light lg:hidden"
-            aria-label={mobileOpen ? "Закрыть меню" : "Открыть меню"}
-            aria-expanded={mobileOpen}
+            onClick={() => setOpen((v) => !v)}
+            className="ml-auto grid h-11 w-11 shrink-0 place-items-center rounded-md text-white hover:bg-white/10 xl:hidden"
+            aria-label={open ? "Закрыть меню" : "Открыть меню"}
+            aria-expanded={open}
           >
-            {mobileOpen ? (
+            {open ? (
               <X aria-hidden="true" className="h-6 w-6" />
             ) : (
               <Menu aria-hidden="true" className="h-6 w-6" />
@@ -200,29 +253,26 @@ function Header() {
         </div>
       </div>
 
-      {mobileOpen && (
-        <div className="border-t border-border bg-white lg:hidden">
+      {open && (
+        <div className="border-t border-white/10 bg-ink xl:hidden">
           <div className="container-factory flex flex-col py-3">
-            <nav className="flex flex-col">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="py-2.5 text-sm font-medium text-graphite transition-colors hover:text-accent"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="py-2.5 text-sm font-semibold text-steel-light hover:text-accent-light"
+              >
+                {item.label}
+              </a>
+            ))}
             <a
               href="tel:+79287771888"
-              className="mt-4 flex items-center gap-2 border-t border-border pt-4 text-base font-bold text-graphite"
+              className="mt-3 flex items-center gap-2 border-t border-white/10 pt-3 text-base font-black text-white"
             >
               <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-accent" />
               +7 928 777-18-88
             </a>
-            <span className="mt-1 text-xs text-steel">звоните: пн–пт, 7:00–16:00</span>
           </div>
         </div>
       )}
@@ -231,63 +281,54 @@ function Header() {
 }
 
 /**
- * Калькулятор на первом экране — главный крючок прототипа: на старом сайте
- * цену можно узнать только звонком.
- *
- * Считает по ценам «от» из их прайса. Надбавку за покрытие НЕ добавляем и
- * коэффициентов не выдумываем: их мы не знаем. Выбранное покрытие уходит
- * словами в расшифровку под суммой.
+ * Калькулятор оформлен как пульт станка: тёмная панель, моноширинный итог.
+ * Считает по ценам «от» из прайса. Надбавку за покрытие не выдумываем —
+ * коэффициентов мы не знаем, покрытие уходит словами в расшифровку.
  */
-// Первая позиция и «без покрытия» вынесены отдельными константами не для
-// красоты: в проекте включён noUncheckedIndexedAccess, и calcItems[0] для
-// компилятора может быть undefined.
-const defaultItem = {
-  id: "bolt",
-  price: 150,
-  label: "Фундаментные болты ГОСТ 24379.1-2012 — от 150 ₽/шт.",
-};
-
-const calcItems = [
-  defaultItem,
-  { id: "stud", price: 357, label: "Фундаментная шпилька ГОСТ 24379.1-2012 — от 357 ₽/шт." },
-  { id: "plate", price: 100, label: "Закладные детали стальные МН — от 100 ₽/шт." },
-  { id: "clamp", price: 35, label: "Скоба накладная ГОСТ 14098-91 — от 35 ₽/шт." },
-];
-
-const noCoating = "Без покрытия";
-const coatings = [noCoating, "Оцинковка", "Порошковая окраска"];
-
-function CalculatorCard() {
-  const [itemId, setItemId] = useState(defaultItem.id);
+function CalculatorPanel() {
+  const [itemId, setItemId] = useState(defaultPosition.id);
   const [qty, setQty] = useState("100");
   const [coating, setCoating] = useState(noCoating);
 
-  const item = calcItems.find((i) => i.id === itemId) ?? defaultItem;
+  const item = priceList.find((i) => i.id === itemId) ?? defaultPosition;
   const count = Math.max(1, Number(qty) || 1);
   const total = item.price * count;
 
   return (
-    <div className="rounded-md bg-white p-6 shadow-2xl sm:p-7">
-      <h2 className="text-xl font-bold tracking-tight text-graphite">Прикинуть стоимость</h2>
-      <p className="mt-1 text-sm text-steel">По ценам прайса. Точную сумму посчитаем по чертежу.</p>
+    <div className="rounded-md border border-white/10 bg-panel p-6 shadow-2xl sm:p-7">
+      <div className="flex items-center gap-2">
+        <Crosshair aria-hidden="true" className="h-4 w-4 shrink-0 text-accent" />
+        <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-accent">
+          Смета за 15 секунд
+        </h2>
+      </div>
+      <p className="mt-3 text-sm text-steel-light">
+        По ценам прайса. Точную сумму посчитаем по вашему чертежу.
+      </p>
 
-      <label htmlFor="calc-item" className="mt-5 mb-1 block text-sm font-medium text-graphite">
-        Что нужно
+      <label
+        htmlFor="calc-item"
+        className="mt-5 mb-1.5 block text-xs font-bold uppercase tracking-wider text-steel"
+      >
+        Изделие
       </label>
       <select
         id="calc-item"
         value={itemId}
         onChange={(e) => setItemId(e.target.value)}
-        className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite focus:border-accent focus:outline-none"
+        className="w-full rounded-sm border border-white/15 bg-ink px-4 py-3 text-sm text-white focus:border-accent focus:outline-none"
       >
-        {calcItems.map((i) => (
+        {priceList.map((i) => (
           <option key={i.id} value={i.id}>
-            {i.label}
+            {i.title} — от {i.price} ₽/шт.
           </option>
         ))}
       </select>
 
-      <label htmlFor="calc-qty" className="mt-4 mb-1 block text-sm font-medium text-graphite">
+      <label
+        htmlFor="calc-qty"
+        className="mt-4 mb-1.5 block text-xs font-bold uppercase tracking-wider text-steel"
+      >
         Количество, шт.
       </label>
       <input
@@ -297,10 +338,12 @@ function CalculatorCard() {
         inputMode="numeric"
         value={qty}
         onChange={(e) => setQty(e.target.value)}
-        className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite focus:border-accent focus:outline-none"
+        className="w-full rounded-sm border border-white/15 bg-ink px-4 py-3 text-sm text-white focus:border-accent focus:outline-none"
       />
 
-      <span className="mt-4 mb-1 block text-sm font-medium text-graphite">Покрытие</span>
+      <span className="mt-4 mb-1.5 block text-xs font-bold uppercase tracking-wider text-steel">
+        Покрытие
+      </span>
       <div className="grid grid-cols-3 gap-2">
         {coatings.map((c) => (
           <button
@@ -308,10 +351,10 @@ function CalculatorCard() {
             type="button"
             onClick={() => setCoating(c)}
             className={
-              "min-h-11 rounded-sm border px-2 py-2 text-xs font-medium transition-colors " +
+              "min-h-11 rounded-sm border px-2 py-2 text-xs font-semibold transition-colors " +
               (coating === c
-                ? "border-accent bg-accent-soft text-accent"
-                : "border-border bg-white text-graphite hover:border-steel")
+                ? "border-accent bg-accent/15 text-accent-light"
+                : "border-white/15 bg-ink text-steel-light hover:border-steel")
             }
           >
             {c}
@@ -319,20 +362,23 @@ function CalculatorCard() {
         ))}
       </div>
 
-      <div className="mt-5 flex flex-wrap items-baseline justify-between gap-2 rounded-sm bg-light px-4 py-4">
-        <span className="text-2xl font-black tracking-tight text-accent sm:text-3xl">
-          от {total.toLocaleString("ru-RU")} ₽
-        </span>
-        <span className="text-xs text-steel">
-          {count.toLocaleString("ru-RU")} шт. × от {item.price} ₽
-          {coating !== noCoating ? ` · ${coating.toLowerCase()} по прайсу` : ""}
-        </span>
+      <div className="mt-5 border-t border-dashed border-white/15 pt-5">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <span className="text-3xl font-black tracking-tight text-accent-light">
+            от {total.toLocaleString("ru-RU")} ₽
+          </span>
+          <span className="text-xs text-steel">
+            {count.toLocaleString("ru-RU")} шт. × от {item.price} ₽
+            {coating !== noCoating ? ` · ${coating.toLowerCase()} по прайсу` : ""}
+          </span>
+        </div>
       </div>
 
       <a
         href="#request"
-        className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-accent px-6 py-4 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-hover"
+        className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md bg-accent px-6 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-hover"
       >
+        <Upload aria-hidden="true" className="h-4 w-4 shrink-0" />
         Уточнить по чертежу
       </a>
     </div>
@@ -341,49 +387,110 @@ function CalculatorCard() {
 
 function HeroSection() {
   return (
-    <section className="section-metal relative overflow-hidden">
-      <div className="container-factory relative py-16 sm:py-20 lg:py-28">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-14">
+    <section id="top" className="blueprint relative overflow-hidden text-white">
+      <div className="pointer-events-none absolute -top-40 -left-32 h-[420px] w-[420px] rounded-full bg-accent/20 blur-[120px]" />
+      <div className="container-factory relative py-14 sm:py-20 lg:py-24">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
           <div>
-            <h1 className="heading-tighter break-words text-[22px] font-black uppercase text-white min-[380px]:text-[26px] min-[430px]:text-3xl sm:text-5xl lg:text-6xl">
-              Анкерные болты и <span className="text-accent-light">металлоконструкции</span> по ГОСТ
+            <span className="inline-flex items-center gap-2 rounded-sm border border-accent/40 bg-accent/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-accent-light">
+              <Flame aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />
+              Собственное производство · Ростов-на-Дону
+            </span>
+
+            <h1 className="heading-tighter mt-6 break-words text-[30px] font-black uppercase min-[430px]:text-4xl sm:text-5xl lg:text-[62px]">
+              {/* Перенос после «и»: отдельной строкой союз выглядит обрывком. */}
+              Анкерные болты и<span className="mt-1 block text-accent">металлоконструкции</span>
+              <span className="mt-1 block">по ГОСТ</span>
             </h1>
-            <p className="mt-5 max-w-2xl text-base text-steel-light sm:text-lg">
-              Собственное производство в Ростове-на-Дону: лазерная резка с ЧПУ, гибка на
-              листогибочных прессах, сварка и порошковая окраска. Изготовим по вашему чертежу.
-              Доставка по всей России.
+
+            <p className="mt-6 max-w-xl text-base text-steel-light sm:text-lg">
+              Режем лазером с ЧПУ, гнём на прессах, варим и красим порошком — всё в одном цеху.
+              Изготовим по вашему чертежу, от одной детали до партии на объект.
             </p>
+
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href="#request"
-                className="inline-flex min-h-12 items-center justify-center rounded-md bg-accent px-6 py-4 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-hover"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-accent px-7 py-4 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-hover"
               >
-                Рассчитать по чертежу
+                <FilePenLine aria-hidden="true" className="h-4 w-4 shrink-0" />
+                Прислать чертёж
               </a>
               <a
-                href="#catalog"
-                className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/30 bg-transparent px-6 py-4 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-white/10"
+                href="#price"
+                className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/25 px-7 py-4 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-white/10"
               >
-                Смотреть каталог
+                Прайс и каталог
               </a>
             </div>
           </div>
 
-          <CalculatorCard />
+          <CalculatorPanel />
         </div>
+      </div>
+    </section>
+  );
+}
 
-        <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-md bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            { value: "12 лет", label: "работаем с 2014 года" },
-            { value: "Свой парк", label: "станки ЧПУ, прессы, покраска" },
-            { value: "По России", label: "доставка в любой регион" },
-            { value: "2020", label: "«Лучшее предприятие отрасли»" },
-          ].map((fact) => (
-            <div key={fact.label} className="bg-graphite px-5 py-5 sm:px-6 sm:py-6">
-              <div className="text-lg font-bold tracking-tight text-white sm:text-xl">
+/** Лента номенклатуры: сплошной поток того, что завод делает каждый день. */
+function MarqueeStrip() {
+  const items = [
+    "Анкерные болты ГОСТ 24379.1-2012",
+    "Закладные детали МН",
+    "Фундаментные шпильки",
+    "Скобы накладные ГОСТ 14098-91",
+    "Металлоконструкции",
+    "Лазерная резка ЧПУ",
+    "Гибка на прессах",
+    "Порошковая окраска RAL",
+    "Изделия по чертежу",
+  ];
+  const line = [...items, ...items];
+
+  return (
+    <div className="overflow-hidden border-y border-white/10 bg-graphite py-3">
+      <div className="marquee-track flex w-max items-center gap-8 whitespace-nowrap">
+        {line.map((text, i) => (
+          <span
+            key={`${text}-${i}`}
+            className="flex items-center gap-8 text-sm font-semibold text-steel-light"
+          >
+            {text}
+            <span className="h-1.5 w-1.5 shrink-0 rotate-45 bg-accent" />
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FactsStrip() {
+  const facts = [
+    { value: "2014", label: "год основания — 12 лет в металле" },
+    { value: "ГОСТ", label: "и по чертежу заказчика" },
+    { value: "РФ", label: "доставка в любой регион" },
+    { value: "2020", label: "«Лучшее предприятие отрасли»" },
+  ];
+
+  return (
+    <section className="bg-graphite text-white">
+      <div className="container-factory">
+        <div className="grid grid-cols-2 lg:grid-cols-4">
+          {facts.map((fact, i) => (
+            <div
+              key={fact.label}
+              className={
+                "border-white/10 px-2 py-7 sm:px-4 " +
+                (i < 2 ? "border-b lg:border-b-0 " : "") +
+                (i % 2 === 0 ? "border-r " : "") +
+                (i === 1 ? "lg:border-r " : "") +
+                (i === 2 ? "lg:border-r " : "")
+              }
+            >
+              <div className="text-3xl font-black tracking-tight text-accent-light sm:text-4xl">
                 {fact.value}
               </div>
-              <div className="mt-1 text-sm text-steel-light">{fact.label}</div>
+              <div className="mt-1.5 text-sm text-steel-light">{fact.label}</div>
             </div>
           ))}
         </div>
@@ -392,238 +499,284 @@ function HeroSection() {
   );
 }
 
-function ProductsSection() {
-  const products = [
+function SectionHead({
+  eyebrow,
+  title,
+  text,
+  tone = "light",
+  action,
+}: {
+  eyebrow: string;
+  title: string;
+  text?: string;
+  tone?: "light" | "dark";
+  action?: { label: string; href: string };
+}) {
+  const titleColor = tone === "dark" ? "text-white" : "text-graphite";
+  const textColor = tone === "dark" ? "text-steel-light" : "text-steel";
+
+  return (
+    <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <div className="max-w-3xl">
+        <span className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.18em] text-accent">
+          <span className="h-px w-8 bg-accent" />
+          {eyebrow}
+        </span>
+        <h2
+          className={`heading-tight mt-4 text-2xl font-black uppercase sm:text-3xl lg:text-[40px] ${titleColor}`}
+        >
+          {title}
+        </h2>
+        {text ? <p className={`mt-4 text-base sm:text-lg ${textColor}`}>{text}</p> : null}
+      </div>
+      {action ? (
+        <a
+          href={action.href}
+          className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-md bg-accent px-6 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-hover"
+        >
+          {action.label}
+        </a>
+      ) : null}
+    </div>
+  );
+}
+
+/** Каталог сеткой разного калибра: две ходовые позиции крупнее остальных. */
+function CatalogSection() {
+  const big = [
     {
       icon: Anchor,
-      title: "Анкерные болты",
-      description: "фундаментные, по ГОСТ 24379.1-2012",
-    },
-    {
-      icon: Layers,
-      title: "Блоки анкерных болтов",
-      description: "в сборе, готовые к монтажу",
+      title: "Анкерные болты и блоки",
+      description:
+        "Фундаментные болты по ГОСТ 24379.1-2012 и блоки в сборе, готовые к монтажу на объекте.",
     },
     {
       icon: Building2,
       title: "Металлоконструкции",
-      description: "фермы, балки, каркасы",
+      description: "Фермы, балки, каркасы — раскрой, сварка и покраска в одном цеху.",
     },
-    {
-      icon: Puzzle,
-      title: "Закладные детали",
-      description: "стальные МН, по чертежу",
-    },
-    {
-      icon: PanelTop,
-      title: "Гибка листового металла",
-      description: "листогибочные прессы",
-    },
-    {
-      icon: ScanLine,
-      title: "Резка металла",
-      description: "лазерные станки с ЧПУ",
-    },
-    {
-      icon: Box,
-      title: "Другие товары",
-      description: "метизная продукция",
-    },
-    {
-      icon: FilePenLine,
-      title: "Изделия по чертежу",
-      description: "пришлите эскиз, посчитаем",
-    },
+  ];
+  const small = [
+    { icon: Puzzle, title: "Закладные детали", description: "стальные МН, по чертежу" },
+    { icon: Layers, title: "Метизная продукция", description: "шпильки, скобы, крепёж" },
+    { icon: PanelTop, title: "Гибка листа", description: "листогибочные прессы" },
+    { icon: ScanLine, title: "Резка металла", description: "лазерные станки с ЧПУ" },
+    { icon: Droplets, title: "Порошковая окраска", description: "цвет по каталогу RAL" },
+    { icon: FilePenLine, title: "Изделия по чертежу", description: "пришлите эскиз — посчитаем" },
   ];
 
   return (
-    <section id="catalog" className="bg-light py-16 sm:py-20 lg:py-24">
+    <section id="catalog" className="scroll-mt-20 bg-light py-16 sm:py-20 lg:py-24">
       <div className="container-factory">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl">
-            <h2 className="heading-tight text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
-              Что мы производим
-            </h2>
-            <p className="mt-4 max-w-2xl text-base text-steel sm:text-lg">
-              Изготавливаем по ГОСТ и по чертежам заказчика — от одиночных деталей до партий на
-              объект
-            </p>
-          </div>
-          <a
-            href="#request"
-            className="inline-flex items-center justify-center rounded-md bg-accent min-h-12 px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-hover shrink-0"
-          >
-            Запросить прайс
-          </a>
-        </div>
+        <SectionHead
+          eyebrow="Каталог"
+          title="Что мы производим"
+          text="По ГОСТ и по чертежам заказчика — от одиночной детали до партии на объект."
+          action={{ label: "Запросить прайс", href: "#request" }}
+        />
 
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((product) => {
-            const Icon = product.icon;
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {big.map((item) => {
+            const Icon = item.icon;
             return (
               <div
-                key={product.title}
-                className="group rounded-md border border-border bg-white p-5 transition-all hover:-translate-y-1 hover:border-accent sm:p-6"
+                key={item.title}
+                className="group relative overflow-hidden rounded-md bg-graphite p-7 text-white sm:col-span-2 lg:col-span-3 lg:flex lg:items-center lg:gap-8"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-sm border border-border bg-light">
+                <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-accent/10 blur-3xl" />
+                <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-sm border border-accent/40 bg-accent/10">
                   <Icon
                     aria-hidden="true"
-                    className="h-6 w-6 shrink-0 text-graphite"
+                    className="h-7 w-7 text-accent-light"
                     strokeWidth={1.5}
                   />
                 </div>
-                <h3 className="mt-4 text-lg font-bold text-graphite">{product.title}</h3>
-                <p className="mt-1 text-sm text-steel">{product.description}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ManufacturingSection() {
-  const capabilities = [
-    {
-      icon: Crosshair,
-      title: "Лазерная резка",
-      description:
-        "Раскрой листа на станках с ЧПУ: точная геометрия, чистый рез, повторяемость в партии.",
-    },
-    {
-      icon: CornerUpLeft,
-      title: "Гибка",
-      description: "Листогибочные прессы: гнутые профили и детали по вашим размерам.",
-    },
-    {
-      icon: Flame,
-      title: "Сварка",
-      description: "Сборка конструкций и блоков анкерных болтов в готовые узлы.",
-    },
-    {
-      icon: Droplets,
-      title: "Порошковая окраска",
-      description: "Камеры полимерного напыления: защита металла и цвет по каталогу RAL.",
-    },
-  ];
-
-  return (
-    <section id="services" className="scroll-mt-20 bg-light py-16 sm:py-20 lg:py-24">
-      <div className="container-factory">
-        <div className="max-w-3xl">
-          <h2 className="heading-tight text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
-            Производство
-          </h2>
-          <p className="mt-4 text-base text-steel sm:text-lg">
-            Лазерные станки с ЧПУ, листогибочные прессы, сварочные аппараты и камеры полимерного
-            напыления от ведущих мировых производителей.
-          </p>
-        </div>
-
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {capabilities.map((cap) => {
-            const Icon = cap.icon;
-            return (
-              <div
-                key={cap.title}
-                className="group rounded-md border border-border bg-white p-5 transition-all hover:-translate-y-1 hover:border-accent sm:p-6"
-              >
-                <div className="flex h-12 w-12 items-center justify-center rounded-sm border border-border bg-light">
-                  <Icon
-                    aria-hidden="true"
-                    className="h-6 w-6 shrink-0 text-graphite"
-                    strokeWidth={1.5}
-                  />
+                <div className="relative mt-5 lg:mt-0">
+                  <h3 className="text-xl font-black uppercase tracking-tight sm:text-2xl">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 max-w-2xl text-sm text-steel-light sm:text-base">
+                    {item.description}
+                  </p>
                 </div>
-                <h3 className="mt-4 text-lg font-bold text-graphite">{cap.title}</h3>
-                <p className="mt-1 text-sm text-steel">{cap.description}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function PopularPositionsSection() {
-  const items = [
-    {
-      title: "Изготовление фундаментных болтов ГОСТ 24379.1-2012",
-      price: "от 150 ₽/шт.",
-      photo: "[фото: фундаментные болты]",
-    },
-    {
-      title: "Изготовление закладных деталей стальных МН",
-      price: "от 100 ₽/шт.",
-      photo: "[фото: закладные детали]",
-    },
-    {
-      title: "Фундаментная шпилька ГОСТ 24379.1-2012",
-      price: "от 357 ₽/шт.",
-      photo: "[фото: фундаментная шпилька]",
-    },
-    {
-      title: "Скоба накладная ГОСТ 14098-91",
-      price: "от 35 ₽/шт.",
-      photo: "[фото: скоба накладная]",
-    },
-  ];
-
-  return (
-    <section id="popular" className="scroll-mt-20 bg-white py-16 sm:py-20 lg:py-24">
-      <div className="container-factory">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl">
-            <h2 className="heading-tight text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
-              Популярные позиции
-            </h2>
-            <p className="mt-4 max-w-2xl text-base text-steel sm:text-lg">
-              Цены — от, окончательная зависит от объёма, марки стали и покрытия.
-            </p>
-          </div>
-          <a
-            href="#catalog"
-            className="inline-flex shrink-0 items-center justify-center rounded-md border border-border bg-white min-h-12 px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-graphite transition-colors hover:border-accent hover:text-accent"
-          >
-            Весь каталог с ценами
-          </a>
-        </div>
-
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {items.map((item) => (
-            <div
-              key={item.title}
-              className="group flex flex-col rounded-md border border-border bg-white transition-all hover:-translate-y-1 hover:border-accent"
-            >
-              <div
-                role="img"
-                aria-label={`${item.title} — изображение будет добавлено`}
-                className="flex aspect-[4/3] items-center justify-center bg-light p-4"
-              >
-                <span className="text-center text-sm font-medium text-steel">{item.photo}</span>
-              </div>
-
-              <div className="flex flex-col p-5 sm:p-6">
-                <h3 className="text-base font-bold leading-snug text-graphite">{item.title}</h3>
-                <p className="mt-3 text-xl font-black text-graphite">{item.price}</p>
                 <a
                   href="#request"
-                  className="mt-5 inline-flex items-center justify-center rounded-md border border-graphite bg-white min-h-12 px-5 py-3 text-center text-sm font-bold uppercase tracking-wide text-graphite transition-colors hover:bg-graphite hover:text-white"
+                  className="relative mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold uppercase tracking-wide text-accent-light transition-colors hover:text-white lg:mt-0 lg:ml-auto"
                 >
-                  Заказать
+                  Рассчитать
+                  <span aria-hidden="true">→</span>
                 </a>
               </div>
-            </div>
-          ))}
+            );
+          })}
+
+          {small.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.title}
+                className="group rounded-md border border-border bg-white p-6 transition-all hover:-translate-y-1 hover:border-accent"
+              >
+                <Icon aria-hidden="true" className="h-8 w-8 text-accent" strokeWidth={1.4} />
+                <h3 className="mt-4 text-lg font-bold text-graphite">{item.title}</h3>
+                <p className="mt-1 text-sm text-steel">{item.description}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
 
-/** Блок «почему мы» на их же фактах: свой парк, работа по документам, ГОСТ. */
+/** Производство шахматкой: крупный номер участка и что он делает. */
+function ProductionSection() {
+  const steps = [
+    {
+      n: "01",
+      icon: ScanLine,
+      title: "Лазерная резка",
+      text: "Раскрой листа на станках с ЧПУ: точная геометрия, чистый рез, повторяемость в партии.",
+    },
+    {
+      n: "02",
+      icon: CornerUpLeft,
+      title: "Гибка",
+      text: "Листогибочные прессы: гнутые профили и детали по вашим размерам.",
+    },
+    {
+      n: "03",
+      icon: Flame,
+      title: "Сварка",
+      text: "Сборка конструкций и блоков анкерных болтов в готовые узлы.",
+    },
+    {
+      n: "04",
+      icon: Droplets,
+      title: "Порошковая окраска",
+      text: "Камеры полимерного напыления: защита металла и цвет по каталогу RAL.",
+    },
+  ];
+
+  return (
+    <section id="services" className="blueprint scroll-mt-20 py-16 text-white sm:py-20 lg:py-24">
+      <div className="container-factory">
+        <SectionHead
+          eyebrow="Производство"
+          title="Четыре участка, один цех"
+          text="Лазерные станки с ЧПУ, листогибочные прессы, сварочные аппараты и камеры полимерного напыления от ведущих мировых производителей."
+          tone="dark"
+        />
+
+        <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-md border border-white/10 bg-white/10 md:grid-cols-2">
+          {steps.map((step) => {
+            const Icon = step.icon;
+            return (
+              <div
+                key={step.n}
+                className="group relative bg-graphite p-7 transition-colors hover:bg-panel sm:p-9"
+              >
+                <div className="flex items-start gap-5">
+                  <span className="text-4xl font-black tracking-tighter text-white/10 transition-colors group-hover:text-accent/40 sm:text-5xl">
+                    {step.n}
+                  </span>
+                  <div>
+                    <div className="flex items-center gap-2.5">
+                      <Icon
+                        aria-hidden="true"
+                        className="h-5 w-5 shrink-0 text-accent"
+                        strokeWidth={1.5}
+                      />
+                      <h3 className="text-lg font-bold sm:text-xl">{step.title}</h3>
+                    </div>
+                    <p className="mt-2.5 text-sm text-steel-light sm:text-base">{step.text}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** Прайс таблицей: заводу привычнее строка с ГОСТом и ценой, а не витрина. */
+function PriceSection() {
+  return (
+    <section id="price" className="scroll-mt-20 bg-white py-16 sm:py-20 lg:py-24">
+      <div className="container-factory">
+        <SectionHead
+          eyebrow="Прайс"
+          title="Ходовые позиции"
+          text="Цена «от» — окончательная зависит от объёма, марки стали и покрытия."
+        />
+
+        <div className="mt-10 overflow-hidden rounded-md border border-border">
+          <table className="hidden w-full border-collapse text-left sm:table">
+            <thead>
+              <tr className="bg-light text-xs font-bold uppercase tracking-wider text-steel">
+                <th className="px-6 py-4">Наименование</th>
+                <th className="px-6 py-4">Стандарт</th>
+                <th className="px-6 py-4 text-right">Цена от</th>
+                <th className="px-6 py-4" />
+              </tr>
+            </thead>
+            <tbody>
+              {priceList.map((item) => (
+                <tr
+                  key={item.id}
+                  className="border-t border-border transition-colors hover:bg-light"
+                >
+                  <td className="px-6 py-5 text-base font-bold text-graphite">{item.title}</td>
+                  <td className="px-6 py-5 text-sm text-steel">{item.gost}</td>
+                  <td className="px-6 py-5 text-right text-lg font-black tracking-tight text-graphite">
+                    {item.price} ₽<span className="text-sm font-semibold text-steel">/шт.</span>
+                  </td>
+                  <td className="px-6 py-5 text-right">
+                    <a
+                      href="#request"
+                      className="inline-flex min-h-11 items-center justify-center rounded-md border border-graphite px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-graphite transition-colors hover:bg-graphite hover:text-white"
+                    >
+                      Заказать
+                    </a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div className="divide-y divide-border sm:hidden">
+            {priceList.map((item) => (
+              <div key={item.id} className="p-5">
+                <div className="text-xs font-semibold uppercase tracking-wider text-steel">
+                  {item.gost}
+                </div>
+                <div className="mt-1 text-base font-bold text-graphite">{item.title}</div>
+                <div className="mt-3 flex items-center justify-between gap-4">
+                  <span className="text-xl font-black tracking-tight text-graphite">
+                    от {item.price} ₽<span className="text-sm font-semibold text-steel">/шт.</span>
+                  </span>
+                  <a
+                    href="#request"
+                    className="inline-flex min-h-11 items-center justify-center rounded-md border border-graphite px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-graphite"
+                  >
+                    Заказать
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p className="mt-4 text-sm text-steel">
+          [Полный прайс и фотографии изделий — из каталога клиента.]
+        </p>
+      </div>
+    </section>
+  );
+}
+
 function AdvantagesSection() {
   const advantages = [
     {
@@ -635,7 +788,7 @@ function AdvantagesSection() {
     {
       icon: ShieldCheck,
       title: "Работа по документам",
-      description: "Счёт, договор, отгрузочные — как в вашей же схеме заказа.",
+      description: "Счёт, договор, отгрузочные — штатный порядок для юрлиц.",
     },
     {
       icon: FilePenLine,
@@ -660,28 +813,18 @@ function AdvantagesSection() {
   ];
 
   return (
-    <section className="bg-white py-16 sm:py-20 lg:py-24">
+    <section className="bg-light py-16 sm:py-20 lg:py-24">
       <div className="container-factory">
-        <div className="max-w-3xl">
-          <h2 className="heading-tight text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
-            Что получает заказчик
-          </h2>
-        </div>
-
+        <SectionHead eyebrow="Почему к нам" title="Что получает заказчик" />
         <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {advantages.map((adv) => {
             const Icon = adv.icon;
             return (
-              <div
-                key={adv.title}
-                className="rounded-md border border-border border-l-4 border-l-accent bg-light p-5 sm:p-6"
-              >
-                <Icon
-                  aria-hidden="true"
-                  className="h-6 w-6 shrink-0 text-accent"
-                  strokeWidth={1.5}
-                />
-                <h3 className="mt-3 text-lg font-bold text-graphite">{adv.title}</h3>
+              <div key={adv.title} className="rounded-md border border-border bg-white p-6">
+                <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-accent-soft">
+                  <Icon aria-hidden="true" className="h-5 w-5 text-accent" strokeWidth={1.6} />
+                </div>
+                <h3 className="mt-4 text-lg font-bold text-graphite">{adv.title}</h3>
                 <p className="mt-1 text-sm text-steel">{adv.description}</p>
               </div>
             );
@@ -692,7 +835,80 @@ function AdvantagesSection() {
   );
 }
 
-/** Ответы только по фактам с их сайта; чего не знаем — в квадратных скобках. */
+function WorkflowSection() {
+  const steps = [
+    "Заявка с чертежом",
+    "Согласование работ",
+    "Выставление счёта",
+    "Заключение договора",
+    "Изготовление",
+    "Доставка и отгрузка",
+  ];
+
+  return (
+    <section id="workflow" className="scroll-mt-20 bg-graphite py-16 text-white sm:py-20 lg:py-24">
+      <div className="container-factory">
+        <SectionHead eyebrow="Порядок работы" title="Как проходит заказ" tone="dark" />
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6">
+          {steps.map((step, i) => (
+            <div key={step} className="relative">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-black text-white">
+                  {i + 1}
+                </span>
+                <span className="h-px flex-1 bg-white/15 lg:block" />
+              </div>
+              <p className="mt-4 text-sm font-bold sm:text-base">{step}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AboutSection() {
+  return (
+    <section id="about" className="scroll-mt-20 bg-white py-16 sm:py-20 lg:py-24">
+      <div className="container-factory grid grid-cols-1 gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-16">
+        <div>
+          <SectionHead eyebrow="О заводе" title="Ростовский гибочный завод" />
+          <div className="mt-6 space-y-4 text-base text-graphite sm:text-lg">
+            <p>
+              ООО «Ростовский гибочный завод» с 2014 года занимается производством и продажей
+              металлоконструкций, анкерных болтов и метизной продукции.
+            </p>
+            <p>
+              Для изготовления используются лазерные станки с ЧПУ, листогибочные прессы, сварочные
+              аппараты и камеры для нанесения полимерного напыления от ведущих мировых
+              производителей. Компания предлагает услуги по гибке, резке и порошковой окраске
+              металла.
+            </p>
+            <p>Доставка производится по всей России.</p>
+            <p className="text-sm text-steel">
+              [Добавим: площадь производства, число сотрудников, крупные объекты — со слов клиента.]
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-md border border-border bg-light p-8 text-center">
+          <Medal aria-hidden="true" className="mx-auto h-14 w-14 text-accent" strokeWidth={1.2} />
+          <div className="mt-4 text-xl font-black uppercase tracking-tight text-graphite">
+            Лучшее предприятие
+            <br />
+            отрасли — 2020
+          </div>
+          <p className="mt-2 text-sm text-steel">
+            Национальный сертификат
+            <br />
+            [скан сертификата]
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function FaqSection() {
   const faq = [
     {
@@ -720,12 +936,7 @@ function FaqSection() {
   return (
     <section id="faq" className="scroll-mt-20 bg-light py-16 sm:py-20 lg:py-24">
       <div className="container-factory">
-        <div className="max-w-3xl">
-          <h2 className="heading-tight text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
-            Коротко о главном
-          </h2>
-        </div>
-
+        <SectionHead eyebrow="Вопросы" title="Коротко о главном" />
         <Accordion type="single" collapsible defaultValue="faq-0" className="mt-10 max-w-3xl">
           {faq.map((item, i) => (
             <AccordionItem key={item.q} value={`faq-${i}`}>
@@ -743,96 +954,10 @@ function FaqSection() {
   );
 }
 
-function WorkflowSection() {
-  const steps = [
-    "Заявка с чертежом",
-    "Согласование работ",
-    "Выставление счёта",
-    "Заключение договора",
-    "Изготовление",
-    "Доставка и отгрузка",
-  ];
-
-  return (
-    <section id="workflow" className="scroll-mt-20 bg-light py-16 sm:py-20 lg:py-24">
-      <div className="container-factory">
-        <h2 className="heading-tight text-center text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
-          Как проходит заказ
-        </h2>
-
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-          {steps.map((step, index) => (
-            <div key={step} className="group flex flex-col items-center text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-lg font-black text-white transition-transform group-hover:scale-110">
-                {index + 1}
-              </div>
-              <p className="mt-4 text-base font-bold text-graphite">{step}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function AboutSection() {
-  return (
-    <section id="about" className="scroll-mt-20 bg-white py-16 sm:py-20 lg:py-24">
-      <div className="container-factory">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="max-w-2xl">
-            <h2 className="heading-tight text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
-              О заводе
-            </h2>
-            <div className="mt-6 space-y-4 text-base text-graphite sm:text-lg">
-              <p>
-                ООО «Ростовский гибочный завод» с 2014 года занимается производством и продажей
-                металлоконструкций, анкерных болтов и метизной продукции.
-              </p>
-              <p>
-                Для изготовления используются лазерные станки с ЧПУ, листогибочные прессы, сварочные
-                аппараты и камеры для нанесения полимерного напыления от ведущих мировых
-                производителей. Компания предлагает услуги по гибке, резке и порошковой окраске
-                металла.
-              </p>
-              <p>Доставка производится по всей России.</p>
-            </div>
-            <p className="mt-6 text-sm text-steel">
-              [Здесь добавим: площадь производства, число сотрудников, крупные объекты — со слов
-              клиента.]
-            </p>
-          </div>
-
-          <div className="flex items-start">
-            <div className="w-full rounded-md border border-border bg-light p-6 sm:p-8">
-              <div className="flex items-start gap-4 sm:gap-5">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-sm bg-white sm:h-16 sm:w-16">
-                  <Medal
-                    aria-hidden="true"
-                    className="h-8 w-8 text-accent sm:h-9 sm:w-9"
-                    strokeWidth={1.5}
-                  />
-                </div>
-                <div>
-                  <p className="text-lg font-black text-graphite sm:text-xl">
-                    Лучшее предприятие отрасли — 2020
-                  </p>
-                  <p className="mt-1 text-sm text-steel">Национальный сертификат</p>
-                  <p className="mt-4 text-xs text-steel">[скан сертификата]</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /**
  * Заявка на заводе начинается с чертежа, а не с телефона — поэтому зона
- * загрузки стоит первой в форме. Файл никуда не уходит: приёмник заявок на
- * сервере владельца ещё не написан, это демонстрация поведения.
+ * загрузки стоит первой. Файл никуда не уходит: приёмник заявок на сервере
+ * владельца ещё не написан, это демонстрация поведения.
  */
 function DrawingDropzone() {
   const [names, setNames] = useState<string[]>([]);
@@ -893,58 +1018,59 @@ function DrawingDropzone() {
 function RequestSection() {
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
   return (
-    <section id="request" className="bg-graphite py-16 sm:py-20 lg:py-24">
-      <div className="container-factory">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="max-w-xl">
-            <h2 className="heading-tight text-2xl font-black uppercase text-white sm:text-3xl lg:text-4xl">
-              Пришлите чертёж — посчитаем
-            </h2>
-            <p className="mt-5 text-base text-steel-light sm:text-lg">
-              Ответим в рабочее время: пн–пт с 7:00 до 16:00. Если удобнее голосом — звоните на{" "}
-              <a href="tel:+79287771888" className="font-bold text-white hover:text-accent">
-                +7 928 777-18-88
-              </a>{" "}
-              или пишите в WhatsApp.
-            </p>
-            <p className="mt-4 text-sm text-steel">
-              [Срок ответа и минимальный объём заказа — уточнить у клиента.]
-            </p>
-          </div>
+    <section id="request" className="blueprint scroll-mt-20 py-16 text-white sm:py-20 lg:py-24">
+      <div className="container-factory grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="max-w-xl">
+          <SectionHead eyebrow="Заявка" title="Пришлите чертёж — посчитаем" tone="dark" />
+          <p className="mt-6 text-base text-steel-light sm:text-lg">
+            Ответим в рабочее время: пн–пт с 7:00 до 16:00. Если удобнее голосом — звоните на{" "}
+            <a
+              href="tel:+79287771888"
+              className="font-bold text-white underline hover:text-accent-light"
+            >
+              +7 928 777-18-88
+            </a>{" "}
+            или пишите в WhatsApp.
+          </p>
+          <p className="mt-4 text-sm text-steel">
+            [Срок ответа и минимальный объём заказа — уточнить у клиента.]
+          </p>
+        </div>
 
-          <div className="rounded-md bg-white p-6 sm:p-8">
-            {submitted ? (
-              <div className="flex flex-col items-center justify-center py-10 text-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-100">
-                  <Check aria-hidden="true" className="h-7 w-7 text-green-600" strokeWidth={2} />
-                </div>
-                <p className="mt-4 text-lg font-bold text-graphite">
-                  Заявка отправлена. Перезвоним в рабочее время.
-                </p>
+        <div className="rounded-md bg-white p-6 text-graphite sm:p-8">
+          {submitted ? (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent-soft">
+                <Check aria-hidden="true" className="h-7 w-7 text-accent" strokeWidth={2} />
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <DrawingDropzone />
+              <p className="mt-4 text-lg font-bold">
+                Заявка отправлена. Перезвоним в рабочее время.
+              </p>
+            </div>
+          ) : (
+            <form
+              className="space-y-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                setSubmitted(true);
+              }}
+            >
+              <DrawingDropzone />
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="name" className="mb-1 block text-sm font-medium text-graphite">
+                  <label htmlFor="name" className="mb-1 block text-sm font-medium">
                     Имя
                   </label>
                   <input
                     id="name"
-                    type="text"
                     required
                     placeholder="Ваше имя"
-                    className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite placeholder:text-steel focus:border-accent focus:outline-none"
+                    className="w-full rounded-sm border border-border px-4 py-3 text-sm focus:border-accent focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label htmlFor="phone" className="mb-1 block text-sm font-medium text-graphite">
+                  <label htmlFor="phone" className="mb-1 block text-sm font-medium">
                     Телефон
                   </label>
                   <input
@@ -952,36 +1078,33 @@ function RequestSection() {
                     type="tel"
                     required
                     placeholder="+7 (___) ___-__-__"
-                    className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite placeholder:text-steel focus:border-accent focus:outline-none"
+                    className="w-full rounded-sm border border-border px-4 py-3 text-sm focus:border-accent focus:outline-none"
                   />
                 </div>
-                <div>
-                  <label htmlFor="details" className="mb-1 block text-sm font-medium text-graphite">
-                    Что нужно изготовить
-                  </label>
-                  <textarea
-                    id="details"
-                    required
-                    rows={4}
-                    placeholder="Например: анкерные болты М24×800, 120 шт."
-                    className="w-full resize-none rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite placeholder:text-steel focus:border-accent focus:outline-none"
-                  />
-                </div>
-                <label className="flex items-start gap-3">
-                  <input type="checkbox" required className="mt-1 h-4 w-4 shrink-0 accent-accent" />
-                  <span className="text-sm text-steel">
-                    Согласие на обработку персональных данных
-                  </span>
+              </div>
+              <div>
+                <label htmlFor="task" className="mb-1 block text-sm font-medium">
+                  Что нужно изготовить
                 </label>
-                <button
-                  type="submit"
-                  className="w-full rounded-md bg-accent min-h-12 px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-hover"
-                >
-                  Отправить заявку
-                </button>
-              </form>
-            )}
-          </div>
+                <textarea
+                  id="task"
+                  rows={3}
+                  placeholder="Например: анкерные болты М24×800, 120 шт., с покрытием"
+                  className="w-full rounded-sm border border-border px-4 py-3 text-sm focus:border-accent focus:outline-none"
+                />
+              </div>
+              <label className="flex items-start gap-2 text-xs text-steel">
+                <input type="checkbox" required className="mt-1 h-4 w-4 shrink-0 accent-accent" />
+                Согласен на обработку персональных данных
+              </label>
+              <button
+                type="submit"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-md bg-accent px-6 py-4 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-hover"
+              >
+                Отправить заявку
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </section>
@@ -990,83 +1113,92 @@ function RequestSection() {
 
 function ContactsSection() {
   return (
-    <section id="contacts" className="scroll-mt-20 bg-light py-16 sm:py-20 lg:py-24">
-      <div className="container-factory">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="max-w-xl">
-            <h2 className="heading-tight text-2xl font-black uppercase text-graphite sm:text-3xl lg:text-4xl">
-              Контакты
-            </h2>
-            <div className="mt-6 space-y-4">
-              <div className="flex items-start gap-3">
-                <MapPin
-                  aria-hidden="true"
-                  className="mt-0.5 h-5 w-5 shrink-0 text-accent"
-                  strokeWidth={1.5}
-                />
-                <div>
-                  <p className="font-bold text-graphite">Адрес</p>
-                  <p className="text-steel">г. Ростов-на-Дону, ул. Монтажная, 6, офис 19</p>
+    <section id="contacts" className="scroll-mt-20 bg-white py-16 sm:py-20 lg:py-24">
+      <div className="container-factory grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+        <div>
+          <SectionHead eyebrow="Контакты" title="Приезжайте или звоните" />
+          <dl className="mt-8 space-y-5">
+            {[
+              { t: "Адрес", d: "г. Ростов-на-Дону, ул. Монтажная, 6, офис 19", icon: MapPin },
+              { t: "Режим работы", d: "пн–пт, 7:00–16:00", icon: Clock },
+            ].map((row) => {
+              const Icon = row.icon;
+              return (
+                <div key={row.t} className="flex gap-4">
+                  <Icon
+                    aria-hidden="true"
+                    className="mt-0.5 h-5 w-5 shrink-0 text-accent"
+                    strokeWidth={1.6}
+                  />
+                  <div>
+                    <dt className="text-sm text-steel">{row.t}</dt>
+                    <dd className="text-base font-bold text-graphite">{row.d}</dd>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Phone
-                  aria-hidden="true"
-                  className="mt-0.5 h-5 w-5 shrink-0 text-accent"
-                  strokeWidth={1.5}
-                />
-                <div>
-                  <p className="font-bold text-graphite">Телефоны</p>
-                  <a
-                    href="tel:+79287771888"
-                    className="block py-1.5 text-base text-steel hover:text-accent"
-                  >
+              );
+            })}
+            <div className="flex gap-4">
+              <Phone
+                aria-hidden="true"
+                className="mt-0.5 h-5 w-5 shrink-0 text-accent"
+                strokeWidth={1.6}
+              />
+              <div>
+                <dt className="text-sm text-steel">Телефоны</dt>
+                <dd className="text-base font-bold text-graphite">
+                  <a href="tel:+79287771888" className="hover:text-accent">
                     +7 928 777-18-88
                   </a>
-                  <a
-                    href="tel:+79081709954"
-                    className="block py-1.5 text-base text-steel hover:text-accent"
-                  >
+                  <br />
+                  <a href="tel:+79081709954" className="hover:text-accent">
                     +7 908 170-99-54
                   </a>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Mail
-                  aria-hidden="true"
-                  className="mt-0.5 h-5 w-5 shrink-0 text-accent"
-                  strokeWidth={1.5}
-                />
-                <div>
-                  <p className="font-bold text-graphite">Почта</p>
-                  <a
-                    href="mailto:rvrs@rambler.ru"
-                    className="inline-block py-1.5 text-base text-steel hover:text-accent"
-                  >
-                    rvrs@rambler.ru
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Clock
-                  aria-hidden="true"
-                  className="mt-0.5 h-5 w-5 shrink-0 text-accent"
-                  strokeWidth={1.5}
-                />
-                <div>
-                  <p className="font-bold text-graphite">Режим работы</p>
-                  <p className="text-steel">пн–пт, 7:00–16:00</p>
-                </div>
-              </div>
-              <div className="pt-2 text-sm text-steel">
-                Реквизиты: [ИНН, ОГРН, расчётный счёт — со слов клиента]
+                </dd>
               </div>
             </div>
-          </div>
+            <div className="flex gap-4">
+              <Mail
+                aria-hidden="true"
+                className="mt-0.5 h-5 w-5 shrink-0 text-accent"
+                strokeWidth={1.6}
+              />
+              <div>
+                <dt className="text-sm text-steel">Почта</dt>
+                <dd className="text-base font-bold text-graphite">
+                  <a href="mailto:rvrs@rambler.ru" className="hover:text-accent">
+                    rvrs@rambler.ru
+                  </a>
+                </dd>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <Box
+                aria-hidden="true"
+                className="mt-0.5 h-5 w-5 shrink-0 text-accent"
+                strokeWidth={1.6}
+              />
+              <div>
+                <dt className="text-sm text-steel">Реквизиты</dt>
+                <dd className="text-base text-steel">
+                  [ИНН, ОГРН, расчётный счёт — со слов клиента]
+                </dd>
+              </div>
+            </div>
+          </dl>
+        </div>
 
-          <div className="flex w-full items-center justify-center rounded-md border border-border bg-white p-6">
-            <span className="text-sm font-medium text-steel">[карта проезда: Монтажная, 6]</span>
+        <div className="flex min-h-[320px] flex-col gap-4 rounded-md border border-border bg-light p-6">
+          <div className="flex flex-1 items-center justify-center rounded-sm border border-dashed border-steel-light p-6 text-center text-sm text-steel">
+            [карта проезда: ул. Монтажная, 6 — поставим Яндекс.Карту]
           </div>
+          <a
+            href="https://yandex.ru/maps/?text=Ростов-на-Дону, улица Монтажная, 6"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-12 items-center justify-center rounded-md bg-graphite px-6 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-ink"
+          >
+            Построить маршрут
+          </a>
         </div>
       </div>
     </section>
@@ -1075,46 +1207,36 @@ function ContactsSection() {
 
 function Footer() {
   return (
-    <footer className="bg-graphite-dark py-10 sm:py-12">
+    <footer className="bg-ink py-12 text-steel">
       <div className="container-factory">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="sm:col-span-2 lg:col-span-1">
-            <a href="/" className="flex flex-col">
-              <span className="text-lg font-bold leading-tight tracking-tight text-white sm:text-xl">
-                ООО «Ростовский гибочный завод»
-              </span>
-              <span className="mt-1 text-xs text-steel">
-                Анкерные болты, закладные детали, металлоконструкции
-              </span>
-            </a>
+        <div className="flex flex-col gap-8 border-b border-white/10 pb-8 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-sm">
+            <Logo />
+            <p className="mt-4 text-sm">
+              Анкерные болты, закладные детали и металлоконструкции по ГОСТ. Собственное
+              производство в Ростове-на-Дону.
+            </p>
           </div>
-
-          <nav className="flex flex-col gap-2">
+          <nav className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-semibold">
             {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="text-sm text-steel-light transition-colors hover:text-white"
-              >
+              <a key={item.href} href={item.href} className="hover:text-white">
                 {item.label}
               </a>
             ))}
           </nav>
-
-          <div className="text-sm text-steel-light">
-            <p>© ООО «РГЗ», 2014–2026</p>
-            <p className="mt-2">[политика обработки персональных данных]</p>
-          </div>
-
-          <div className="text-sm text-steel-light lg:text-right">
-            <p>г. Ростов-на-Дону, ул. Монтажная, 6</p>
-            <a
-              href="tel:+79287771888"
-              className="mt-1 inline-block py-1.5 text-base hover:text-white"
-            >
+          <div className="text-sm">
+            <a href="tel:+79287771888" className="text-lg font-black text-white">
               +7 928 777-18-88
             </a>
+            <p className="mt-1">пн–пт, 7:00–16:00</p>
+            <a href="mailto:rvrs@rambler.ru" className="mt-2 block hover:text-white">
+              rvrs@rambler.ru
+            </a>
           </div>
+        </div>
+        <div className="flex flex-wrap justify-between gap-3 pt-6 text-xs">
+          <span>© ООО «РГЗ», 2014–2026</span>
+          <span>[политика обработки персональных данных]</span>
         </div>
       </div>
     </footer>
@@ -1128,23 +1250,20 @@ function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Написать в WhatsApp"
-      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-white shadow-lg transition-transform hover:scale-110 hover:bg-whatsapp-hover"
+      className="fixed bottom-20 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-white shadow-lg transition-transform hover:scale-110 hover:bg-whatsapp-hover lg:bottom-6 lg:right-6"
     >
       <MessageCircle aria-hidden="true" className="h-7 w-7" strokeWidth={1.5} />
     </a>
   );
 }
 
-/**
- * Липкая панель на телефоне: позвонить и прислать чертёж — две единственные
- * цели заводского сайта, обе должны быть под большим пальцем.
- */
+/** Липкая панель на телефоне: позвонить и прислать чертёж — под большим пальцем. */
 function MobileCtaBar() {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 gap-px border-t border-border bg-border shadow-[0_-6px_24px_rgba(0,0,0,0.12)] lg:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 gap-px border-t border-white/10 bg-white/10 lg:hidden">
       <a
         href="tel:+79287771888"
-        className="flex min-h-14 items-center justify-center gap-2 bg-white text-sm font-bold text-graphite"
+        className="flex min-h-14 items-center justify-center gap-2 bg-graphite text-sm font-bold text-white"
       >
         <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-accent" />
         Позвонить
@@ -1154,7 +1273,7 @@ function MobileCtaBar() {
         className="flex min-h-14 items-center justify-center gap-2 bg-accent text-sm font-bold text-white"
       >
         <Upload aria-hidden="true" className="h-4 w-4 shrink-0" />
-        Прислать чертёж
+        Чертёж
       </a>
     </div>
   );
@@ -1162,14 +1281,16 @@ function MobileCtaBar() {
 
 function Index() {
   return (
-    <div className="min-h-screen bg-light">
+    <div className="min-h-screen bg-white pb-14 lg:pb-0">
       <TopBar />
       <Header />
       <main>
         <HeroSection />
-        <ProductsSection />
-        <ManufacturingSection />
-        <PopularPositionsSection />
+        <MarqueeStrip />
+        <FactsStrip />
+        <CatalogSection />
+        <ProductionSection />
+        <PriceSection />
         <AdvantagesSection />
         <WorkflowSection />
         <AboutSection />
