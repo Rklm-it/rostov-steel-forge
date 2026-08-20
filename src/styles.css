@@ -7,7 +7,10 @@
 /*
  * Design system: ООО «Ростовский гибочный завод»
  * Industrial, strict, no gradients, no rounded pills, no emojis.
- * Colors: graphite #1E2328 / #14171A, accent red #E4322B, light #F4F5F7.
+ * Colors: graphite #1E2328 / #14171A, accent steel-blue #1D5EA8, light #F4F5F7.
+ * Акцент синий, «чертёжный», а не красный: красного на странице выходило
+ * слишком много и он читался тревожно. Синий держит заводскую строгость и
+ * не спорит с оранжевой ржавчиной на будущих фотографиях цеха.
  * System font stack, tight letter-spacing, square corners (max 4px radius).
  */
 
@@ -43,8 +46,16 @@
   /* Factory semantic tokens */
   --color-graphite: #1e2328;
   --color-graphite-dark: #14171a;
-  --color-red: #e4322b;
-  --color-red-hover: #c92a24;
+  --color-accent: #1d5ea8;
+  --color-accent-hover: #17497f;
+  --color-accent-soft: #eaf1f9;
+  /* На графите синий #1D5EA8 тёмный и почти не читается — для тёмных секций
+     отдельный светлый тон. */
+  --color-accent-light: #5b9be0;
+  /* WhatsApp — чужой бренд: кнопка должна быть его зелёной, иначе её просто
+     не узнают в углу экрана. */
+  --color-whatsapp: #25d366;
+  --color-whatsapp-hover: #1eb85a;
   --color-light: #f4f5f7;
   --color-white: #ffffff;
   --color-steel: #6b737c;
@@ -59,7 +70,7 @@
   --card-foreground: #14171a;
   --popover: #ffffff;
   --popover-foreground: #14171a;
-  --primary: #e4322b;
+  --primary: #1d5ea8;
   --primary-foreground: #ffffff;
   --secondary: #1e2328;
   --secondary-foreground: #ffffff;
@@ -67,11 +78,11 @@
   --muted-foreground: #6b737c;
   --accent: #1e2328;
   --accent-foreground: #ffffff;
-  --destructive: #e4322b;
+  --destructive: #c0392f;
   --destructive-foreground: #ffffff;
   --border: #d5d7db;
   --input: #d5d7db;
-  --ring: #e4322b;
+  --ring: #1d5ea8;
 }
 
 @layer base {
@@ -86,7 +97,8 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family:
+      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

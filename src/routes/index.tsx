@@ -168,7 +168,7 @@ function Header() {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium text-graphite transition-colors hover:text-red"
+                className="text-sm font-medium text-graphite transition-colors hover:text-accent"
               >
                 {item.label}
               </a>
@@ -209,7 +209,7 @@ function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className="py-2.5 text-sm font-medium text-graphite transition-colors hover:text-red"
+                  className="py-2.5 text-sm font-medium text-graphite transition-colors hover:text-accent"
                 >
                   {item.label}
                 </a>
@@ -219,7 +219,7 @@ function Header() {
               href="tel:+79287771888"
               className="mt-4 flex items-center gap-2 border-t border-border pt-4 text-base font-bold text-graphite"
             >
-              <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-red" />
+              <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-accent" />
               +7 928 777-18-88
             </a>
             <span className="mt-1 text-xs text-steel">звоните: пн–пт, 7:00–16:00</span>
@@ -278,7 +278,7 @@ function CalculatorCard() {
         id="calc-item"
         value={itemId}
         onChange={(e) => setItemId(e.target.value)}
-        className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite focus:border-red focus:outline-none"
+        className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite focus:border-accent focus:outline-none"
       >
         {calcItems.map((i) => (
           <option key={i.id} value={i.id}>
@@ -297,7 +297,7 @@ function CalculatorCard() {
         inputMode="numeric"
         value={qty}
         onChange={(e) => setQty(e.target.value)}
-        className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite focus:border-red focus:outline-none"
+        className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite focus:border-accent focus:outline-none"
       />
 
       <span className="mt-4 mb-1 block text-sm font-medium text-graphite">Покрытие</span>
@@ -310,7 +310,7 @@ function CalculatorCard() {
             className={
               "min-h-11 rounded-sm border px-2 py-2 text-xs font-medium transition-colors " +
               (coating === c
-                ? "border-red bg-red/10 text-red"
+                ? "border-accent bg-accent-soft text-accent"
                 : "border-border bg-white text-graphite hover:border-steel")
             }
           >
@@ -320,7 +320,7 @@ function CalculatorCard() {
       </div>
 
       <div className="mt-5 flex flex-wrap items-baseline justify-between gap-2 rounded-sm bg-light px-4 py-4">
-        <span className="text-2xl font-black tracking-tight text-red sm:text-3xl">
+        <span className="text-2xl font-black tracking-tight text-accent sm:text-3xl">
           от {total.toLocaleString("ru-RU")} ₽
         </span>
         <span className="text-xs text-steel">
@@ -331,7 +331,7 @@ function CalculatorCard() {
 
       <a
         href="#request"
-        className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-red px-6 py-4 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-hover"
+        className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-accent px-6 py-4 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-hover"
       >
         Уточнить по чертежу
       </a>
@@ -346,7 +346,7 @@ function HeroSection() {
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-14">
           <div>
             <h1 className="heading-tighter break-words text-[22px] font-black uppercase text-white min-[380px]:text-[26px] min-[430px]:text-3xl sm:text-5xl lg:text-6xl">
-              Анкерные болты и <span className="text-red">металлоконструкции</span> по ГОСТ
+              Анкерные болты и <span className="text-accent-light">металлоконструкции</span> по ГОСТ
             </h1>
             <p className="mt-5 max-w-2xl text-base text-steel-light sm:text-lg">
               Собственное производство в Ростове-на-Дону: лазерная резка с ЧПУ, гибка на
@@ -356,7 +356,7 @@ function HeroSection() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href="#request"
-                className="inline-flex min-h-12 items-center justify-center rounded-md bg-red px-6 py-4 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-hover"
+                className="inline-flex min-h-12 items-center justify-center rounded-md bg-accent px-6 py-4 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-hover"
               >
                 Рассчитать по чертежу
               </a>
@@ -451,7 +451,7 @@ function ProductsSection() {
           </div>
           <a
             href="#request"
-            className="inline-flex items-center justify-center rounded-md bg-red min-h-12 px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-hover shrink-0"
+            className="inline-flex items-center justify-center rounded-md bg-accent min-h-12 px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-hover shrink-0"
           >
             Запросить прайс
           </a>
@@ -463,7 +463,7 @@ function ProductsSection() {
             return (
               <div
                 key={product.title}
-                className="group rounded-md border border-border bg-white p-5 transition-all hover:-translate-y-1 hover:border-red sm:p-6"
+                className="group rounded-md border border-border bg-white p-5 transition-all hover:-translate-y-1 hover:border-accent sm:p-6"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-sm border border-border bg-light">
                   <Icon
@@ -527,7 +527,7 @@ function ManufacturingSection() {
             return (
               <div
                 key={cap.title}
-                className="group rounded-md border border-border bg-white p-5 transition-all hover:-translate-y-1 hover:border-red sm:p-6"
+                className="group rounded-md border border-border bg-white p-5 transition-all hover:-translate-y-1 hover:border-accent sm:p-6"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-sm border border-border bg-light">
                   <Icon
@@ -585,7 +585,7 @@ function PopularPositionsSection() {
           </div>
           <a
             href="#catalog"
-            className="inline-flex shrink-0 items-center justify-center rounded-md border border-border bg-white min-h-12 px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-graphite transition-colors hover:border-red hover:text-red"
+            className="inline-flex shrink-0 items-center justify-center rounded-md border border-border bg-white min-h-12 px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-graphite transition-colors hover:border-accent hover:text-accent"
           >
             Весь каталог с ценами
           </a>
@@ -595,7 +595,7 @@ function PopularPositionsSection() {
           {items.map((item) => (
             <div
               key={item.title}
-              className="group flex flex-col rounded-md border border-border bg-white transition-all hover:-translate-y-1 hover:border-red"
+              className="group flex flex-col rounded-md border border-border bg-white transition-all hover:-translate-y-1 hover:border-accent"
             >
               <div
                 role="img"
@@ -607,7 +607,7 @@ function PopularPositionsSection() {
 
               <div className="flex flex-col p-5 sm:p-6">
                 <h3 className="text-base font-bold leading-snug text-graphite">{item.title}</h3>
-                <p className="mt-3 text-xl font-black text-red">{item.price}</p>
+                <p className="mt-3 text-xl font-black text-graphite">{item.price}</p>
                 <a
                   href="#request"
                   className="mt-5 inline-flex items-center justify-center rounded-md border border-graphite bg-white min-h-12 px-5 py-3 text-center text-sm font-bold uppercase tracking-wide text-graphite transition-colors hover:bg-graphite hover:text-white"
@@ -674,9 +674,13 @@ function AdvantagesSection() {
             return (
               <div
                 key={adv.title}
-                className="rounded-md border border-border border-l-4 border-l-red bg-light p-5 sm:p-6"
+                className="rounded-md border border-border border-l-4 border-l-accent bg-light p-5 sm:p-6"
               >
-                <Icon aria-hidden="true" className="h-6 w-6 shrink-0 text-red" strokeWidth={1.5} />
+                <Icon
+                  aria-hidden="true"
+                  className="h-6 w-6 shrink-0 text-accent"
+                  strokeWidth={1.5}
+                />
                 <h3 className="mt-3 text-lg font-bold text-graphite">{adv.title}</h3>
                 <p className="mt-1 text-sm text-steel">{adv.description}</p>
               </div>
@@ -725,7 +729,7 @@ function FaqSection() {
         <Accordion type="single" collapsible defaultValue="faq-0" className="mt-10 max-w-3xl">
           {faq.map((item, i) => (
             <AccordionItem key={item.q} value={`faq-${i}`}>
-              <AccordionTrigger className="text-left text-base font-bold text-graphite hover:text-red sm:text-lg">
+              <AccordionTrigger className="text-left text-base font-bold text-graphite hover:text-accent sm:text-lg">
                 {item.q}
               </AccordionTrigger>
               <AccordionContent className="text-sm text-steel sm:text-base">
@@ -759,7 +763,7 @@ function WorkflowSection() {
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
           {steps.map((step, index) => (
             <div key={step} className="group flex flex-col items-center text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red text-lg font-black text-white transition-transform group-hover:scale-110">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-lg font-black text-white transition-transform group-hover:scale-110">
                 {index + 1}
               </div>
               <p className="mt-4 text-base font-bold text-graphite">{step}</p>
@@ -805,7 +809,7 @@ function AboutSection() {
                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-sm bg-white sm:h-16 sm:w-16">
                   <Medal
                     aria-hidden="true"
-                    className="h-8 w-8 text-red sm:h-9 sm:w-9"
+                    className="h-8 w-8 text-accent sm:h-9 sm:w-9"
                     strokeWidth={1.5}
                   />
                 </div>
@@ -855,7 +859,7 @@ function DrawingDropzone() {
       onClick={() => inputRef.current?.click()}
       className={
         "cursor-pointer rounded-sm border border-dashed px-4 py-6 text-center transition-colors " +
-        (over ? "border-red bg-red/5" : "border-steel-light bg-white hover:border-red")
+        (over ? "border-accent bg-accent-soft" : "border-steel-light bg-white hover:border-accent")
       }
     >
       <input
@@ -865,7 +869,11 @@ function DrawingDropzone() {
         className="hidden"
         onChange={(e) => take(e.target.files)}
       />
-      <Upload aria-hidden="true" className="mx-auto h-6 w-6 shrink-0 text-red" strokeWidth={1.5} />
+      <Upload
+        aria-hidden="true"
+        className="mx-auto h-6 w-6 shrink-0 text-accent"
+        strokeWidth={1.5}
+      />
       <p className="mt-2 text-sm font-bold text-graphite">
         {names.length === 0
           ? "Перетащите чертёж сюда"
@@ -900,7 +908,7 @@ function RequestSection() {
             </h2>
             <p className="mt-5 text-base text-steel-light sm:text-lg">
               Ответим в рабочее время: пн–пт с 7:00 до 16:00. Если удобнее голосом — звоните на{" "}
-              <a href="tel:+79287771888" className="font-bold text-white hover:text-red">
+              <a href="tel:+79287771888" className="font-bold text-white hover:text-accent">
                 +7 928 777-18-88
               </a>{" "}
               или пишите в WhatsApp.
@@ -932,7 +940,7 @@ function RequestSection() {
                     type="text"
                     required
                     placeholder="Ваше имя"
-                    className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite placeholder:text-steel focus:border-red focus:outline-none"
+                    className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite placeholder:text-steel focus:border-accent focus:outline-none"
                   />
                 </div>
                 <div>
@@ -944,7 +952,7 @@ function RequestSection() {
                     type="tel"
                     required
                     placeholder="+7 (___) ___-__-__"
-                    className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite placeholder:text-steel focus:border-red focus:outline-none"
+                    className="w-full rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite placeholder:text-steel focus:border-accent focus:outline-none"
                   />
                 </div>
                 <div>
@@ -956,18 +964,18 @@ function RequestSection() {
                     required
                     rows={4}
                     placeholder="Например: анкерные болты М24×800, 120 шт."
-                    className="w-full resize-none rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite placeholder:text-steel focus:border-red focus:outline-none"
+                    className="w-full resize-none rounded-sm border border-border bg-white px-4 py-3 text-sm text-graphite placeholder:text-steel focus:border-accent focus:outline-none"
                   />
                 </div>
                 <label className="flex items-start gap-3">
-                  <input type="checkbox" required className="mt-1 h-4 w-4 shrink-0 accent-red" />
+                  <input type="checkbox" required className="mt-1 h-4 w-4 shrink-0 accent-accent" />
                   <span className="text-sm text-steel">
                     Согласие на обработку персональных данных
                   </span>
                 </label>
                 <button
                   type="submit"
-                  className="w-full rounded-md bg-red min-h-12 px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-hover"
+                  className="w-full rounded-md bg-accent min-h-12 px-6 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-hover"
                 >
                   Отправить заявку
                 </button>
@@ -993,7 +1001,7 @@ function ContactsSection() {
               <div className="flex items-start gap-3">
                 <MapPin
                   aria-hidden="true"
-                  className="mt-0.5 h-5 w-5 shrink-0 text-red"
+                  className="mt-0.5 h-5 w-5 shrink-0 text-accent"
                   strokeWidth={1.5}
                 />
                 <div>
@@ -1004,20 +1012,20 @@ function ContactsSection() {
               <div className="flex items-start gap-3">
                 <Phone
                   aria-hidden="true"
-                  className="mt-0.5 h-5 w-5 shrink-0 text-red"
+                  className="mt-0.5 h-5 w-5 shrink-0 text-accent"
                   strokeWidth={1.5}
                 />
                 <div>
                   <p className="font-bold text-graphite">Телефоны</p>
                   <a
                     href="tel:+79287771888"
-                    className="block py-1.5 text-base text-steel hover:text-red"
+                    className="block py-1.5 text-base text-steel hover:text-accent"
                   >
                     +7 928 777-18-88
                   </a>
                   <a
                     href="tel:+79081709954"
-                    className="block py-1.5 text-base text-steel hover:text-red"
+                    className="block py-1.5 text-base text-steel hover:text-accent"
                   >
                     +7 908 170-99-54
                   </a>
@@ -1026,14 +1034,14 @@ function ContactsSection() {
               <div className="flex items-start gap-3">
                 <Mail
                   aria-hidden="true"
-                  className="mt-0.5 h-5 w-5 shrink-0 text-red"
+                  className="mt-0.5 h-5 w-5 shrink-0 text-accent"
                   strokeWidth={1.5}
                 />
                 <div>
                   <p className="font-bold text-graphite">Почта</p>
                   <a
                     href="mailto:rvrs@rambler.ru"
-                    className="inline-block py-1.5 text-base text-steel hover:text-red"
+                    className="inline-block py-1.5 text-base text-steel hover:text-accent"
                   >
                     rvrs@rambler.ru
                   </a>
@@ -1042,7 +1050,7 @@ function ContactsSection() {
               <div className="flex items-start gap-3">
                 <Clock
                   aria-hidden="true"
-                  className="mt-0.5 h-5 w-5 shrink-0 text-red"
+                  className="mt-0.5 h-5 w-5 shrink-0 text-accent"
                   strokeWidth={1.5}
                 />
                 <div>
@@ -1120,7 +1128,7 @@ function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Написать в WhatsApp"
-      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-red text-white shadow-lg transition-transform hover:scale-110 hover:bg-red-hover"
+      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-white shadow-lg transition-transform hover:scale-110 hover:bg-whatsapp-hover"
     >
       <MessageCircle aria-hidden="true" className="h-7 w-7" strokeWidth={1.5} />
     </a>
@@ -1138,12 +1146,12 @@ function MobileCtaBar() {
         href="tel:+79287771888"
         className="flex min-h-14 items-center justify-center gap-2 bg-white text-sm font-bold text-graphite"
       >
-        <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-red" />
+        <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-accent" />
         Позвонить
       </a>
       <a
         href="#request"
-        className="flex min-h-14 items-center justify-center gap-2 bg-red text-sm font-bold text-white"
+        className="flex min-h-14 items-center justify-center gap-2 bg-accent text-sm font-bold text-white"
       >
         <Upload aria-hidden="true" className="h-4 w-4 shrink-0" />
         Прислать чертёж
